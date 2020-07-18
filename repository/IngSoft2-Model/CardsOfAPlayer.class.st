@@ -1,6 +1,6 @@
 "
 Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
-""Box with Probability""
+""a cards of a player""
 For the Class part:  State a one line summary. For example, ""I represent a paragraph of text"".
 
 For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
@@ -17,38 +17,63 @@ Public API and Key Messages
  
 Internal Representation and Key Implementation Points.
 
+    Instance Variables
+	cards:		<Object>
+	player:		<Object>
+
 
     Implementation Points
 "
 Class {
-	#name : #BoxWithProbability,
+	#name : #CardsOfAPlayer,
 	#superclass : #Object,
 	#instVars : [
-		'effect',
-		'probability'
+		'player',
+		'cards'
 	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #creation }
-BoxWithProbability class >> effect: anEffect withProbability: aProbability [
+{ #category : #'as yet unclassified' }
+CardsOfAPlayer class >> player: aPlayer cards: twoCards [
 	^ self new
-		initializeEffect: anEffect withProbability: aProbability;
+		initializeWithPlayer: aPlayer cards: twoCards;
 		yourself
 ]
 
 { #category : #action }
-BoxWithProbability >> effectOn: aGame [
-	effect effectOn: aGame.
-]
-
-{ #category : #initialization }
-BoxWithProbability >> initializeEffect: anEffect withProbability: aProbability [
-	effect := anEffect .
-	probability := aProbability .
+CardsOfAPlayer >> addCard: aCard [
+	cards add: aCard.
+	
 ]
 
 { #category : #accessing }
-BoxWithProbability >> probability [
-	^ probability .
+CardsOfAPlayer >> allCards [
+	^ cards
+]
+
+{ #category : #accessing }
+CardsOfAPlayer >> amountOfCards [
+	^ cards size
+]
+
+{ #category : #initialization }
+CardsOfAPlayer >> initializeWithPlayer: aPlayer cards: twoCards [
+	player := aPlayer .
+	cards := twoCards.
+]
+
+{ #category : #accessing }
+CardsOfAPlayer >> player [ 
+	^ player .
+]
+
+{ #category : #action }
+CardsOfAPlayer >> usesTheCard: aCard [ 
+	cards remove: aCard.
+]
+
+{ #category : #action }
+CardsOfAPlayer >> willHaveTheCards: collectionOfCards [
+	cards := collectionOfCards.
 ]

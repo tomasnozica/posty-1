@@ -1,6 +1,6 @@
 "
 Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
-""Box with Probability""
+""speed card""
 For the Class part:  State a one line summary. For example, ""I represent a paragraph of text"".
 
 For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
@@ -21,34 +21,13 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #BoxWithProbability,
-	#superclass : #Object,
-	#instVars : [
-		'effect',
-		'probability'
-	],
+	#name : #SpeedCard,
+	#superclass : #Cards,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #creation }
-BoxWithProbability class >> effect: anEffect withProbability: aProbability [
-	^ self new
-		initializeEffect: anEffect withProbability: aProbability;
-		yourself
-]
-
 { #category : #action }
-BoxWithProbability >> effectOn: aGame [
-	effect effectOn: aGame.
-]
-
-{ #category : #initialization }
-BoxWithProbability >> initializeEffect: anEffect withProbability: aProbability [
-	effect := anEffect .
-	probability := aProbability .
-]
-
-{ #category : #accessing }
-BoxWithProbability >> probability [
-	^ probability .
+SpeedCard >> cardOn: aGame [
+	aGame lastCardUsed: self.
+	^ 1
 ]

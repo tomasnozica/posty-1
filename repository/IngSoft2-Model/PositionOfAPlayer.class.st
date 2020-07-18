@@ -1,8 +1,8 @@
 "
 Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
-""Box with Probability""
-For the Class part:  State a one line summary. For example, ""I represent a paragraph of text"".
 
+For the Class part:  State a one line summary. For example, ""I represent a paragraph of text"".
+""extract data from positions""
 For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
 
 For the Collaborators Part: State my main collaborators and one line about how I interact with them. 
@@ -21,34 +21,35 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #BoxWithProbability,
+	#name : #PositionOfAPlayer,
 	#superclass : #Object,
 	#instVars : [
-		'effect',
-		'probability'
+		'player',
+		'positionRecords'
 	],
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #creation }
-BoxWithProbability class >> effect: anEffect withProbability: aProbability [
-	^ self new
-		initializeEffect: anEffect withProbability: aProbability;
+{ #category : #'as yet unclassified' }
+PositionOfAPlayer class >> player: aPlayer positionRecords: aPositionRecord [
+	^ self new 
+		initializeWithPlayer: aPlayer
+		positionRecords: aPositionRecord ;
 		yourself
 ]
 
-{ #category : #action }
-BoxWithProbability >> effectOn: aGame [
-	effect effectOn: aGame.
+{ #category : #accessing }
+PositionOfAPlayer >> allPositionRecord [
+	^ positionRecords 
 ]
 
 { #category : #initialization }
-BoxWithProbability >> initializeEffect: anEffect withProbability: aProbability [
-	effect := anEffect .
-	probability := aProbability .
+PositionOfAPlayer >> initializeWithPlayer: aPlayer positionRecords: aPositionRecord [
+	player := aPlayer.
+	positionRecords := aPositionRecord .
 ]
 
 { #category : #accessing }
-BoxWithProbability >> probability [
-	^ probability .
+PositionOfAPlayer >> player [
+	^ player 
 ]

@@ -1,10 +1,10 @@
 "
 Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
-""speed card""
+
 For the Class part:  State a one line summary. For example, ""I represent a paragraph of text"".
 
 For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
-
+""Redo card""
 For the Collaborators Part: State my main collaborators and one line about how I interact with them. 
 
 Public API and Key Messages
@@ -21,12 +21,12 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Speed,
+	#name : #RedoCard,
 	#superclass : #Cards,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #action }
-Speed >> effect [
-	^ 1
+RedoCard >> cardOn: aGame [
+	^ (aGame lastCardUsed) cardOn: aGame.
 ]

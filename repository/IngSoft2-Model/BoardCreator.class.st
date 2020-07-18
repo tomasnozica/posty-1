@@ -58,7 +58,8 @@ BoardCreator >> createBoard [
 	| random |
 	random := Random new.
 	board := (1 to: size)
-		collect: [ :element | board add: (vector at: (self getNumber: random next)) ]
+		collect: [ :element | board add: (vector at: (self getNumber: random next)) ].
+	^ board.
 ]
 
 { #category : #actions }
