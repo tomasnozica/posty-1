@@ -56,12 +56,18 @@ CardTest >> setUp [
 	diceTwo := SameFaceDice withFaces: 5.
 	empty := EmptyEffect new.
 	card := CardEffect new.
-	boxes := OrderedCollection with: empty with: empty with: empty with: empty with:card with: empty.
+	boxes := OrderedCollection
+		with: empty
+		with: empty
+		with: empty
+		with: empty
+		with: card
+		with: empty.
 	boxes add: empty.
 	boxes add: empty.
 	boxes add: empty.
 	boxes add: empty.
-	aBoard := Board with: boxes.
+	aBoard := Board fromDraft: boxes andSize: nil
 ]
 
 { #category : #tests }
@@ -87,20 +93,40 @@ CardTest >> testADeckOfCardsHasSixTypesOfCards [
 CardTest >> testAcceleration [
 	| cardTypes acceleration deckOfCards twoPlayerGame |
 	acceleration := AccelerationCard new.
-	cardTypes := OrderedCollection with: acceleration.
-	deckOfCards := DeckOfCards withEffects: cardTypes .
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2  withPlayers: players with: deckOfCards.
+	cardTypes := OrderedCollection fromDraft: acceleration andSize: nil.
+	deckOfCards := DeckOfCards withEffects: cardTypes.
+	twoPlayerGame := Game
+		withBoard: aBoard
+		withLaps: 2
+		withPlayers: players
+		with: deckOfCards.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration.
 	diceOne nextRollNumber: 4.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 5 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 5 andLap: 0  for: ben  in: twoPlayerGame . 
+	self
+		assertPosition: 5
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 5
+		andLap: 0
+		for: ben
+		in: twoPlayerGame.
 	diceOne nextRollNumber: 3.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 9 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 9 andLap: 0  for: ben  in: twoPlayerGame . 
+	self
+		assertPosition: 9
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 9
+		andLap: 0
+		for: ben
+		in: twoPlayerGame
 ]
 
 { #category : #tests }
@@ -123,43 +149,87 @@ CardTest >> testCancellation [
 	| cardTypes acceleration cancellation deckOfCards twoPlayerGame |
 	acceleration := AccelerationCard new.
 	cancellation := CancellationCard new.
-	cardTypes := OrderedCollection with: acceleration.
-	deckOfCards := DeckOfCards withEffects: cardTypes .
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2  withPlayers: players with: deckOfCards.
-	twoPlayerGame thePlayer: jack willHaveTheCards: (OrderedCollection with: acceleration with: cancellation ).
+	cardTypes := OrderedCollection fromDraft: acceleration andSize: nil.
+	deckOfCards := DeckOfCards withEffects: cardTypes.
+	twoPlayerGame := Game
+		withBoard: aBoard
+		withLaps: 2
+		withPlayers: players
+		with: deckOfCards.
+	twoPlayerGame
+		thePlayer: jack
+		willHaveTheCards: (OrderedCollection with: acceleration with: cancellation).
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration.
 	diceOne nextRollNumber: 4.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 5 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 5 andLap: 0  for: ben  in: twoPlayerGame . 
-	twoPlayerGame thePlayer: jack wantsToUseTheCard: cancellation on: acceleration.
+	self
+		assertPosition: 5
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 5
+		andLap: 0
+		for: ben
+		in: twoPlayerGame.
+	twoPlayerGame
+		thePlayer: jack
+		wantsToUseTheCard: cancellation
+		on: acceleration.
 	diceOne nextRollNumber: 3.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 8 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 8 andLap: 0  for: ben  in: twoPlayerGame . 
-	
+	self
+		assertPosition: 8
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 8
+		andLap: 0
+		for: ben
+		in: twoPlayerGame
 ]
 
 { #category : #tests }
 CardTest >> testOverload [
 	| cardTypes overload deckOfCards twoPlayerGame |
 	overload := OverloadCard new.
-	cardTypes := OrderedCollection with: overload.
-	deckOfCards := DeckOfCards withEffects: cardTypes .
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2  withPlayers: players with: deckOfCards.
+	cardTypes := OrderedCollection fromDraft: overload andSize: nil.
+	deckOfCards := DeckOfCards withEffects: cardTypes.
+	twoPlayerGame := Game
+		withBoard: aBoard
+		withLaps: 2
+		withPlayers: players
+		with: deckOfCards.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: overload with: ben.
 	diceOne nextRollNumber: 5.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 5 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 3 andLap: 0  for: ben  in: twoPlayerGame . 
+	self
+		assertPosition: 5
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 3
+		andLap: 0
+		for: ben
+		in: twoPlayerGame.
 	diceOne nextRollNumber: 3.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 8 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 4 andLap: 0  for: ben  in: twoPlayerGame . 
+	self
+		assertPosition: 8
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 4
+		andLap: 0
+		for: ben
+		in: twoPlayerGame
 ]
 
 { #category : #tests }
@@ -167,64 +237,136 @@ CardTest >> testRedo [
 	| cardTypes acceleration deckOfCards twoPlayerGame redo |
 	acceleration := AccelerationCard new.
 	redo := RedoCard new.
-	cardTypes := OrderedCollection with: acceleration.
-	deckOfCards := DeckOfCards withEffects: cardTypes .
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2  withPlayers: players with: deckOfCards.
-	twoPlayerGame thePlayer: jack willHaveTheCards: (OrderedCollection with: acceleration with: acceleration ).
-	twoPlayerGame thePlayer: ben willHaveTheCards: (OrderedCollection with: acceleration with: redo ).
+	cardTypes := OrderedCollection fromDraft: acceleration andSize: nil.
+	deckOfCards := DeckOfCards withEffects: cardTypes.
+	twoPlayerGame := Game
+		withBoard: aBoard
+		withLaps: 2
+		withPlayers: players
+		with: deckOfCards.
+	twoPlayerGame
+		thePlayer: jack
+		willHaveTheCards: (OrderedCollection with: acceleration with: acceleration).
+	twoPlayerGame
+		thePlayer: ben
+		willHaveTheCards: (OrderedCollection with: acceleration with: redo).
 	diceOne nextRollNumber: 3.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 4 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 4 andLap: 0  for: ben  in: twoPlayerGame . 
+	self
+		assertPosition: 4
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 4
+		andLap: 0
+		for: ben
+		in: twoPlayerGame.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame thePlayer: ben wantsToUseTheCard: redo.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 8 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 9 andLap: 0  for: ben  in: twoPlayerGame . 
+	self
+		assertPosition: 8
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 9
+		andLap: 0
+		for: ben
+		in: twoPlayerGame
 ]
 
 { #category : #tests }
-CardTest >> testRepeat [ 
+CardTest >> testRepeat [
 	| cardTypes repeat deckOfCards twoPlayerGame |
 	repeat := RepeatCard new.
-	cardTypes := OrderedCollection with: repeat.
-	deckOfCards := DeckOfCards withEffects: cardTypes .
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2  withPlayers: players with: deckOfCards.
+	cardTypes := OrderedCollection fromDraft: repeat andSize: nil.
+	deckOfCards := DeckOfCards withEffects: cardTypes.
+	twoPlayerGame := Game
+		withBoard: aBoard
+		withLaps: 2
+		withPlayers: players
+		with: deckOfCards.
 	diceOne nextRollNumber: 5.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 5 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 5 andLap: 0  for: ben  in: twoPlayerGame . 
+	self
+		assertPosition: 5
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 5
+		andLap: 0
+		for: ben
+		in: twoPlayerGame.
 	diceOne nextRollNumber: 3.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 8 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 8 andLap: 0  for: ben  in: twoPlayerGame . 
+	self
+		assertPosition: 8
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 8
+		andLap: 0
+		for: ben
+		in: twoPlayerGame.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: repeat with: ben.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 1 andLap: 1  for: jack  in: twoPlayerGame . 
-	self assertPosition: 1 andLap: 1  for: ben  in: twoPlayerGame .
+	self
+		assertPosition: 1
+		andLap: 1
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 1
+		andLap: 1
+		for: ben
+		in: twoPlayerGame
 ]
 
 { #category : #tests }
-CardTest >> testSpeed [ 
+CardTest >> testSpeed [
 	| cardTypes speed deckOfCards twoPlayerGame |
 	speed := SpeedCard new.
-	cardTypes := OrderedCollection with: speed.
-	deckOfCards := DeckOfCards withEffects: cardTypes .
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2  withPlayers: players with: deckOfCards.
+	cardTypes := OrderedCollection fromDraft: speed andSize: nil.
+	deckOfCards := DeckOfCards withEffects: cardTypes.
+	twoPlayerGame := Game
+		withBoard: aBoard
+		withLaps: 2
+		withPlayers: players
+		with: deckOfCards.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: speed with: ben.
 	diceOne nextRollNumber: 5.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 5 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 6 andLap: 0  for: ben  in: twoPlayerGame . 
+	self
+		assertPosition: 5
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 6
+		andLap: 0
+		for: ben
+		in: twoPlayerGame.
 	diceOne nextRollNumber: 2.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 7 andLap: 0  for: jack  in: twoPlayerGame . 
-	self assertPosition: 9 andLap: 0  for: ben  in: twoPlayerGame . 
+	self
+		assertPosition: 7
+		andLap: 0
+		for: jack
+		in: twoPlayerGame.
+	self
+		assertPosition: 9
+		andLap: 0
+		for: ben
+		in: twoPlayerGame
 ]

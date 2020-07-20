@@ -48,7 +48,7 @@ PositionRecords >> deleteLastRecord [
 
 { #category : #initialization }
 PositionRecords >> initializeWithInitialPosition: aNumber [
-	recordOfPositions := OrderedCollection with: aNumber.
+	recordOfPositions := OrderedCollection fromDraft: aNumber andSize: nil
 ]
 
 { #category : #accessing }

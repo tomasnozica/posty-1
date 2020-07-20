@@ -27,37 +27,40 @@ Class {
 	#name : #Board,
 	#superclass : #Object,
 	#instVars : [
-		'listOfBoxes'
+		'board'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #creation }
-Board class >> with: boxes [ 
+Board class >> fromDraft: aDraft andSize: aSize [
 	^ self new
-	initializeWith: boxes;
-	yourself 
+		initializeFromDraft: aDraft andSize: aSize;
+		yourself
 ]
 
 { #category : #actions }
 Board >> amountOfBoxes [
-	^ listOfBoxes size
+	^ board size
 ]
 
 { #category : #actions }
 Board >> doEffectOn: aPlayer in: aGame [
-	(listOfBoxes at: (aGame positionOf: aPlayer)) effectOn: aGame
+	(board at: (aGame positionOf: aPlayer)) effectOn: aGame
 ]
 
 { #category : #actions }
 Board >> doEffectOnLastPosition: aPlayer in: aGame [
-	(listOfBoxes at: (aGame lastPositionOf: aPlayer)) effectOn: aGame
+	(board at: (aGame lastPositionOf: aPlayer)) effectOn: aGame
 ]
 
 { #category : #initialize }
-Board >> initializeWith: boxes [ 
-	"creates the board"
-	listOfBoxes := boxes.
+Board >> initializeFromDraft: aDraft andSize: aSize [ 
+	| random  |
+	random := Random new.
+	board := OrderedCollection new.
+	
+	(1 to: aSize) collect: [ :element1 | board add: (aDraft at: ((random next * 100) asInteger + 1)) ].
 ]
 
 { #category : #actions }

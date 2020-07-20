@@ -70,17 +70,33 @@ GameTest >> setUp [
 	diceTwo := SameFaceDice withFaces: 5.
 	empty := EmptyEffect new.
 	card := CardEffect new.
-	boxes := OrderedCollection with: empty with: empty with: empty with: empty with:card with: empty.
+	boxes := OrderedCollection
+		with: empty
+		with: empty
+		with: empty
+		with: empty
+		with: card
+		with: empty.
 	boxes add: empty.
 	boxes add: empty.
 	boxes add: empty.
 	boxes add: empty.
-	aBoard := Board with: boxes.
+	aBoard := Board fromDraft: boxes andSize: nil.
 	theBlanckCard := CardWithNoEffect new.
-	theNoEffectCards := OrderedCollection with: theBlanckCard.
-	deckOfCards := DeckOfCards withEffects: theNoEffectCards .
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2  withPlayers:  players with: deckOfCards.
-	threePlayerGame := Game withBoard: aBoard withLaps: 5  withPlayers:  threePlayers with: deckOfCards.
+	theNoEffectCards := OrderedCollection
+		fromDraft: theBlanckCard
+		andSize: nil.
+	deckOfCards := DeckOfCards withEffects: theNoEffectCards.
+	twoPlayerGame := Game
+		withBoard: aBoard
+		withLaps: 2
+		withPlayers: players
+		with: deckOfCards.
+	threePlayerGame := Game
+		withBoard: aBoard
+		withLaps: 5
+		withPlayers: threePlayers
+		with: deckOfCards
 ]
 
 { #category : #tests }
