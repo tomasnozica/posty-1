@@ -65,8 +65,8 @@ BoxTest >> setUp [
 { #category : #tests }
 BoxTest >> testAtomicBomb [
 	| board game |
-	board := AtomicBombBoard ofSize: 5.
-	board addAtomicBomb .
+	board := UCAGameBoardBuilder ofSize: 5.
+	board addAtomicBomb.
 	game := Game withBoard: (board build) withLaps: 1 withPlayers: players with: deckOfCards.
 	self assertPosition: 0 andLap: 0 of: jack in: game.
 	diceOne nextRollNumber: 2.
@@ -81,212 +81,67 @@ BoxTest >> testAtomicBomb [
 
 { #category : #tests }
 BoxTest >> testMoonWalk [
-	| moonwalkAndEmpty twoPlayerGame aBoard |
-	moonwalkAndEmpty := OrderedCollection
-		with: empty
-		with: empty
-		with: empty
-		with: moonWalk
-		with: empty.
-	aBoard := Board fromDraft: moonwalkAndEmpty andSize: nil.
-	twoPlayerGame := Game
-		withBoard: aBoard
-		withLaps: 1
-		withPlayers: players
-		with: deckOfCards.
-	diceOne nextRollNumber: 2.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 2
-		andLap: 0
-		of: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 0
-		andLap: 0
-		of: ben
-		in: twoPlayerGame.
-	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 1
-		andLap: -1
-		of: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 4
-		andLap: 0
-		of: ben
-		in: twoPlayerGame
+	| draft game stepsBack board|
+	draft := UCAGameBoardBuilder ofSize: 10.
+	draft addMoonWalk  .
+	board := draft build.
+	game := Game withBoard: board withLaps: 1 withPlayers: players with: deckOfCards.
+	diceOne nextRollNumber: 6.
+	game newTurnWithDice: diceOne .
+	diceOne nextRollNumber: 3.
+	game newTurnWithDice: diceOne .
+	stepsBack := (board positionAt: 3) stepsBack.
+	self assertPosition: 6-stepsBack andLap: 0 of: jack in: game.
 ]
 
 { #category : #tests }
 BoxTest >> testSpeedUp [
-	| speedUpAndEmpty twoPlayerGame aBoard |
-	speedUpAndEmpty := OrderedCollection
-		with: empty
-		with: empty
-		with: empty
-		with: speedUp
-		with: empty.
-	aBoard := Board fromDraft: speedUpAndEmpty andSize: nil.
-	twoPlayerGame := Game
-		withBoard: aBoard
-		withLaps: 1
-		withPlayers: players
-		with: deckOfCards.
+	| board game |
+	board := UCAGameBoardBuilder ofSize: 10.
+	board addSpeedUp .
+	game := Game withBoard: (board build) withLaps: 1 withPlayers: players with: deckOfCards.
+	self assertPosition: 0 andLap: 0 of: jack in: game.
 	diceOne nextRollNumber: 2.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 2
-		andLap: 0
-		of: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 0
-		andLap: 0
-		of: ben
-		in: twoPlayerGame.
-	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 2
-		andLap: 0
-		of: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 3
-		andLap: 1
-		of: ben
-		in: twoPlayerGame
-]
+	game newTurnWithDice: diceOne .
+	self assertPosition: 6 andLap: 0 of: jack in: game.
+		
+	
 
-{ #category : #tests }
-BoxTest >> testTimeMachine [
-	| timeMachineAndEmpty twoPlayerGame aBoard |
-	timeMachineAndEmpty := OrderedCollection
-		with: empty
-		with: empty
-		with: timeMachine
-		with: empty
-		with: empty.
-	aBoard := Board fromDraft: timeMachineAndEmpty andSize: nil.
-	twoPlayerGame := Game
-		withBoard: aBoard
-		withLaps: 3
-		withPlayers: players
-		with: deckOfCards.
-	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
-	diceOne nextRollNumber: 6.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 4
-		andLap: 1
-		of: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 1
-		andLap: 2
-		of: ben
-		in: twoPlayerGame.
-	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 4
-		andLap: 1
-		of: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 1
-		andLap: 2
-		of: ben
-		in: twoPlayerGame
+
+
+
+
+
+
+
+
+
+
+
 ]
 
 { #category : #tests }
 BoxTest >> testVacio [
-	| allEmpty twoPlayerGame aBoard |
-	allEmpty := OrderedCollection
-		with: empty
-		with: empty
-		with: empty
-		with: empty
-		with: empty.
-	aBoard := Board fromDraft: allEmpty andSize: nil.
-	twoPlayerGame := Game
-		withBoard: aBoard
-		withLaps: 1
-		withPlayers: players
-		with: deckOfCards.
-	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 4
-		andLap: 0
-		of: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 0
-		andLap: 0
-		of: ben
-		in: twoPlayerGame.
-	diceOne nextRollNumber: 6.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 4
-		andLap: 0
-		of: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 1
-		andLap: 1
-		of: ben
-		in: twoPlayerGame
+	| board game |
+	board := UCAGameBoardBuilder ofSize: 10.
+	board addEmptyEffect.
+	game := Game withBoard: (board build) withLaps: 1 withPlayers: players with: deckOfCards.
+	self assertPosition: 0 andLap: 0 of: jack in: game.
+	diceOne nextRollNumber: 2.
+	game newTurnWithDice: diceOne .
+	self assertPosition: 2 andLap: 0 of: jack in: game.
+		
 ]
 
 { #category : #tests }
 BoxTest >> testWormHole [
-	| wormHoleAndEmpty twoPlayerGame aBoard |
-	wormHoleAndEmpty := OrderedCollection
-		with: empty
-		with: empty
-		with: empty
-		with: empty
-		with: wormHole.
-	aBoard := Board fromDraft: wormHoleAndEmpty andSize: nil.
-	twoPlayerGame := Game
-		withBoard: aBoard
-		withLaps: 1
-		withPlayers: players
-		with: deckOfCards.
-	diceOne nextRollNumber: 2.
-	twoPlayerGame newTurnWithDice: diceOne.
-	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 2
-		andLap: 0
-		of: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 4
-		andLap: 0
-		of: ben
-		in: twoPlayerGame.
-	diceOne nextRollNumber: 3.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 1
-		andLap: 0
-		of: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 4
-		andLap: 0
-		of: ben
-		in: twoPlayerGame
+	| board game |
+	board := UCAGameBoardBuilder ofSize: 10.
+	board addWormHole.
+	game := Game withBoard: (board build) withLaps: 1 withPlayers: players with: deckOfCards.
+	self assertPosition: 0 andLap: 0 of: jack in: game.
+	diceOne nextRollNumber: 6.
+	game newTurnWithDice: diceOne .
+	self assertPosition: 2 andLap: 0 of: jack in: game.
+	
 ]

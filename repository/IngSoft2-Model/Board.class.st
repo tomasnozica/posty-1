@@ -59,8 +59,7 @@ Board >> initializeFromDraft: aDraft andSize: aSize [
 	| random  |
 	random := Random new.
 	board := OrderedCollection new.
-	
-	(1 to: aSize) collect: [ :element1 | board add: (aDraft at: ((random next * 100) asInteger + 1)) ].
+	(1 to: aSize) collect: [ :element1 | board add: (aDraft at: ((random next * aDraft size) asInteger + 1)) ].
 ]
 
 { #category : #actions }
@@ -75,4 +74,9 @@ Board >> positionAccordingToBoard: aPosition [
 	aPosition <= self amountOfBoxes
 		ifTrue: [ ^ aPosition  ]
 		ifFalse: [ ^ aPosition - (aPosition // self amountOfBoxes * self amountOfBoxes) ]
+]
+
+{ #category : #'as yet unclassified' }
+Board >> positionAt: anIndex [ 
+	^ board at: anIndex
 ]

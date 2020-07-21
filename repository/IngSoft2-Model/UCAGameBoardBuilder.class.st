@@ -54,8 +54,8 @@ UCAGameBoardBuilder >> addEmptyEffect [
 UCAGameBoardBuilder >> addMoonWalk [
 	| random n |
 	random := Random new.
-	n := (random next * 10)+1.
-	1 to: 10 do: [ :index | draft add: (MoonwalkEffect numberOfStepsBack: n) ]
+	n := (random next * 5)+1.
+	1 to: 10 do: [ :index | draft add: (MoonwalkEffect numberOfStepsBack: n asInteger) ]
 ]
 
 { #category : #adding }

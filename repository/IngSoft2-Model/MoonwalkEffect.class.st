@@ -45,3 +45,8 @@ MoonwalkEffect >> effectOn: aGame [
 MoonwalkEffect >> initializeWithNumberOfStepsBack: aNumber [
 	numberOfStepsBack := aNumber.
 ]
+
+{ #category : #'as yet unclassified' }
+MoonwalkEffect >> stepsBack [
+	^ numberOfStepsBack 
+]
