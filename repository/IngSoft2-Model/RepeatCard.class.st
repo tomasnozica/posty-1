@@ -27,7 +27,7 @@ Class {
 }
 
 { #category : #action }
-RepeatCard >> cardOn: aGame [
+RepeatCard >> applyEffectOn: cardOrPlayer in: aGame [
 	aGame doEffectOnLastPosition.
 	^ 0.
 ]

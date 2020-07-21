@@ -37,7 +37,8 @@ Class {
 		'turnManager',
 		'deckOfCards',
 		'playersOfTheGame',
-		'lastCardUsed'
+		'lastCardUsed',
+		'permanentCards'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -67,6 +68,11 @@ Game >> addCardToPlayer: aPlayer [
 	playersOfTheGame addCard: (deckOfCards pickACard) toPlayer: aPlayer
 ]
 
+{ #category : #adding }
+Game >> addPermanentCard: aCard [
+	permanentCards add: aCard
+]
+
 { #category : #'effect of cards' }
 Game >> addPermanentCard: aCard to: aPlayer [ 
 	(playersOfTheGame permanentCardsOf: aPlayer) addCard: aCard.
@@ -79,12 +85,10 @@ Game >> amountOfCardsOf: aPlayer [
 
 { #category : #'effect of cards' }
 Game >> applyCardTo: aPlayer [
-	^ playersOfTheGame applyCardTo: aPlayer
-]
-
-{ #category : #'effect of cards' }
-Game >> applyCardToAll: aCard [ 
-	playersOfTheGame applyCardToAll: aCard.
+	| a |
+	a := permanentCards select: [ :aPermanentCard | ((aPermanentCard player = playersOfTheGame) | (aPermanentCard player = aPlayer) ) ].
+	a isEmpty ifFalse: [ ^ (a collect: [ :each | each effect ]) sum ] ifTrue: [ ^2 ].
+	
 ]
 
 { #category : #asserting }
@@ -107,26 +111,16 @@ Game >> createCardsOfPlayer: aListOfPlayers [
 ]
 
 { #category : #creation }
-Game >> createPermanentCardsOfPlayer: aListOfPlayers [
-	^ aListOfPlayers
-		collect: [ :player | PermanentCardsOfAPlayer ofPlayer: player ofGame: self ]
-]
-
-{ #category : #creation }
 Game >> createPlayersOfAGame: aListOfPlayers [
 	playersOfTheGame := PlayersOfAGame
 		listOfPositionOfPlayers: (self createPositionRecords: aListOfPlayers)
 		listOfCardsOfPlayers: (self createCardsOfPlayer: aListOfPlayers)
-		listOfPermanentCardsOfPlayers: (self createPermanentCardsOfPlayer: aListOfPlayers).
+		listOfPermanentCardsOfPlayers: nil.
 ]
 
 { #category : #creation }
 Game >> createPositionRecords: aListOfPlayers [
-	^ aListOfPlayers
-		collect: [ :player | 
-			PositionOfAPlayer
-				player: player
-				positionRecords: (PositionRecords withInitialPosition: 0) ]
+	^ aListOfPlayers collect: [ :player | PositionRecord ofPlayer: player]
 ]
 
 { #category : #description }
@@ -146,6 +140,7 @@ Game >> initializeWithBoard: aBoard withLaps: aNumberOfLaps withPlayers: players
 	turnManager := AssignTurn withAmountOfPlayers: players size.
 	listOfPlayers := players.
 	deckOfCards := aDeckOfCards .
+	permanentCards := OrderedCollection new.
 	self createPlayersOfAGame: players.
 ]
 
@@ -186,7 +181,7 @@ Game >> lastPositionOf: aPlayer [
 
 { #category : #actions }
 Game >> move: aPlayer anAmountOfBoxes: aNumber [
-	(playersOfTheGame positionRecordsOf: aPlayer) addNewRecord: aNumber + (self applyCardTo: aPlayer).
+	(playersOfTheGame positionRecordsOf: aPlayer) addNewRecord: aNumber + (self applyCardTo: aPlayer) .
 ]
 
 { #category : #actions }
@@ -222,6 +217,11 @@ Game >> rankingPositionOf: aPlayer [
 	^ playersOfTheGame rankingPositionOf: aPlayer
 ]
 
+{ #category : #removing }
+Game >> removePermanentCard: aCard [
+	permanentCards remove: aCard.
+]
+
 { #category : #description }
 Game >> restOfPlayers [
 	^ (playersOfTheGame allPlayers )
@@ -244,31 +244,10 @@ Game >> steps [
 ]
 
 { #category : #'ways to use cards' }
-Game >> thePlayer: aPlayer usesTheCard: aCard [
-	self assertIsTheTurnOf: aPlayer. 
-	(playersOfTheGame cardsOfPlayer: aPlayer) usesTheCard: aCard. 
-]
-
-{ #category : #'ways to use cards' }
-Game >> thePlayer: aPlayer wantsToUseTheCard: aCard [ 
+Game >> thePlayer: aPlayer wantsToUseTheCard: aCard on: cardOrPlayer [
 	self assertIsTheTurnOf: aPlayer.
-	self thePlayer: aPlayer usesTheCard: aCard.
-	self applyCardToAll: aCard.
-]
-
-{ #category : #'ways to use cards' }
-Game >> thePlayer: aPlayer wantsToUseTheCard: aCard on: anotherCard [ 
-	self assertIsTheTurnOf: aPlayer.
-	self thePlayer: aPlayer usesTheCard: aCard . 
-	playersOfTheGame removeCard: anotherCard .
-]
-
-{ #category : #'ways to use cards' }
-Game >> thePlayer: aPlayer wantsToUseTheCard: aCard with: anotherPlayer [ 
-	self assertIsTheTurnOf: aPlayer.
-	self thePlayer: aPlayer usesTheCard: aCard.
-	self addPermanentCard: aCard to: anotherPlayer.
-	
+	playersOfTheGame remove: aCard to: aPlayer.
+	aCard applyEffectOn: cardOrPlayer in: self.
 ]
 
 { #category : #'ways to use cards' }

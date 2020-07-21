@@ -34,7 +34,8 @@ Class {
 		'threePlayerGame',
 		'diceOne',
 		'diceTwo',
-		'card'
+		'card',
+		'boardBuilder'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -54,79 +55,32 @@ CardTest >> setUp [
 	diceOne := SameFaceDice withFaces: 4.
 	diceOne nextRollNumber: 4.
 	diceTwo := SameFaceDice withFaces: 5.
-	empty := EmptyEffect new.
-	card := CardEffect new.
-	boxes := OrderedCollection
-		with: empty
-		with: empty
-		with: empty
-		with: empty
-		with: card
-		with: empty.
-	boxes add: empty.
-	boxes add: empty.
-	boxes add: empty.
-	boxes add: empty.
-	aBoard := Board fromDraft: boxes andSize: nil
-]
+	boardBuilder := UCAGameBoardBuilder ofSize: 10.
+	boardBuilder addEmptyEffect .
+	aBoard := boardBuilder build.
+	
 
-{ #category : #tests }
-CardTest >> testADeckOfCardsHasSixTypesOfCards [
-	| cardTypes overload speed acceleration cancellation redo repeat deckOfCards |
-	overload := OverloadCard new.
-	speed := SpeedCard new.
-	acceleration := AccelerationCard new.
-	cancellation := CancellationCard new.
-	redo := RedoCard new.
-	repeat := RepeatCard new.
-	cardTypes := OrderedCollection with: overload with: speed with: acceleration with: cancellation with: redo with: repeat.
-	deckOfCards := DeckOfCards withEffects: cardTypes .
-	self assert: (deckOfCards isAValidEffect: overload).
-	self assert: (deckOfCards isAValidEffect: speed).
-	self assert: (deckOfCards isAValidEffect: acceleration).
-	self assert: (deckOfCards isAValidEffect: cancellation).
-	self assert: (deckOfCards isAValidEffect: redo).
-	self assert: (deckOfCards isAValidEffect: repeat).	
+
+
+
+
+
 ]
 
 { #category : #tests }
 CardTest >> testAcceleration [
-	| cardTypes acceleration deckOfCards twoPlayerGame |
+	| acceleration deckOfCards twoPlayerGame cardTypes |
 	acceleration := AccelerationCard new.
-	cardTypes := OrderedCollection fromDraft: acceleration andSize: nil.
+	cardTypes := OrderedCollection new.
+	cardTypes add: acceleration .
 	deckOfCards := DeckOfCards withEffects: cardTypes.
-	twoPlayerGame := Game
-		withBoard: aBoard
-		withLaps: 2
-		withPlayers: players
-		with: deckOfCards.
-	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration.
+	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
+	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration on: players.
 	diceOne nextRollNumber: 4.
 	twoPlayerGame newTurnWithDice: diceOne.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 5
-		andLap: 0
-		for: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 5
-		andLap: 0
-		for: ben
-		in: twoPlayerGame.
-	diceOne nextRollNumber: 3.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 9
-		andLap: 0
-		for: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 9
-		andLap: 0
-		for: ben
-		in: twoPlayerGame
+	self assertPosition: 5 andLap: 0 for: jack in: twoPlayerGame.
+	self assertPosition: 5 andLap: 0 for: ben in: twoPlayerGame.
 ]
 
 { #category : #tests }
@@ -151,45 +105,17 @@ CardTest >> testCancellation [
 	cancellation := CancellationCard new.
 	cardTypes := OrderedCollection fromDraft: acceleration andSize: nil.
 	deckOfCards := DeckOfCards withEffects: cardTypes.
-	twoPlayerGame := Game
-		withBoard: aBoard
-		withLaps: 2
-		withPlayers: players
-		with: deckOfCards.
-	twoPlayerGame
-		thePlayer: jack
-		willHaveTheCards: (OrderedCollection with: acceleration with: cancellation).
-	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration.
+	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
+	twoPlayerGame thePlayer: jack willHaveTheCards: (OrderedCollection with: acceleration with: cancellation).
+	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration on: players.
 	diceOne nextRollNumber: 4.
 	twoPlayerGame newTurnWithDice: diceOne.
+	self assertPosition: 5 andLap: 0 for: jack in: twoPlayerGame.
 	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 5
-		andLap: 0
-		for: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 5
-		andLap: 0
-		for: ben
-		in: twoPlayerGame.
-	twoPlayerGame
-		thePlayer: jack
-		wantsToUseTheCard: cancellation
-		on: acceleration.
-	diceOne nextRollNumber: 3.
+	twoPlayerGame thePlayer: jack wantsToUseTheCard: cancellation  on: acceleration .
 	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self
-		assertPosition: 8
-		andLap: 0
-		for: jack
-		in: twoPlayerGame.
-	self
-		assertPosition: 8
-		andLap: 0
-		for: ben
-		in: twoPlayerGame
+	self assertPosition: 9 andLap: 0 for: jack in: twoPlayerGame.
+	
 ]
 
 { #category : #tests }

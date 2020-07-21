@@ -27,6 +27,6 @@ Class {
 }
 
 { #category : #action }
-RedoCard >> cardOn: aGame [
-	^ (aGame lastCardUsed) cardOn: aGame.
+RedoCard >> applyEffectOn: cardOrPlayer in: aGame [
+	^ aGame lastCardUsed applyEffectOn: cardOrPlayer in: aGame
 ]

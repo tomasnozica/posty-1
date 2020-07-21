@@ -21,47 +21,55 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #PositionRecords,
+	#name : #PositionRecord,
 	#superclass : #Object,
 	#instVars : [
-		'recordOfPositions'
+		'recordOfPositions',
+		'player'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'as yet unclassified' }
-PositionRecords class >> withInitialPosition: aNumber [
+PositionRecord class >> ofPlayer: aPlayer [
 	^ self new 
-		initializeWithInitialPosition: aNumber;
+		initializeForPlayer: aPlayer;
 		yourself
 ]
 
 { #category : #adding }
-PositionRecords >> addNewRecord: aNumber [
+PositionRecord >> addNewRecord: aNumber [
 	recordOfPositions add: aNumber.
 ]
 
 { #category : #adding }
-PositionRecords >> deleteLastRecord [
+PositionRecord >> deleteLastRecord [
 	recordOfPositions remove: (recordOfPositions last).
 ]
 
 { #category : #initialization }
-PositionRecords >> initializeWithInitialPosition: aNumber [
-	recordOfPositions := OrderedCollection fromDraft: aNumber andSize: nil
+PositionRecord >> initializeForPlayer: aPlayer [
+	player := aPlayer .
+	recordOfPositions := OrderedCollection new.
+	recordOfPositions add:0.
 ]
 
 { #category : #accessing }
-PositionRecords >> lastPosition [
+PositionRecord >> lastPosition [
 	^ recordOfPositions sum - recordOfPositions last.
 ]
 
 { #category : #accessing }
-PositionRecords >> moveToBeginning [
+PositionRecord >> moveToBeginning [
 	  recordOfPositions add: (self position) negated 
 ]
 
 { #category : #accessing }
-PositionRecords >> position [
+PositionRecord >> player [ 
+	^ player	
+]
+
+{ #category : #accessing }
+PositionRecord >> position [
 	^ recordOfPositions sum
 ]

@@ -23,11 +23,20 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #OverloadCard,
 	#superclass : #Cards,
+	#instVars : [
+		'player'
+	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #action }
-OverloadCard >> cardOn: aGame [
+OverloadCard >> applyEffectOn: aPlayer in: aGame [
 	aGame lastCardUsed: self.
-	^ -2.
+	aGame addPermanentCard: self .
+	player := aPlayer.
+]
+
+{ #category : #'as yet unclassified' }
+OverloadCard >> effect [ 
+	^ -2
 ]

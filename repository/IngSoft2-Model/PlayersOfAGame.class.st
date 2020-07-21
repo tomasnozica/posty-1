@@ -27,8 +27,8 @@ Class {
 	#name : #PlayersOfAGame,
 	#superclass : #Object,
 	#instVars : [
-		'listOfPositionOfPlayers',
-		'listOfCardsOfPlayer',
+		'positionRecord',
+		'cardsOfPlayer',
 		'listOfPermanentCardsOfPlayer',
 		'game'
 	],
@@ -38,9 +38,9 @@ Class {
 { #category : #'as yet unclassified' }
 PlayersOfAGame class >> listOfPositionOfPlayers: aListOfPositionOfPlayers listOfCardsOfPlayers: aListOfCardsOfPlayer listOfPermanentCardsOfPlayers: aListOfPermanentCardsOfPlayer [
 	^ self new
-		initializeWithListOfPositionOfPlayers: aListOfPositionOfPlayers
-		listOfCardsOfPlayers: aListOfCardsOfPlayer
-		listOfPermanentCardsOfPlayers: aListOfPermanentCardsOfPlayer; yourself
+		initializeWithPositionRecords: aListOfPositionOfPlayers
+		cards: aListOfCardsOfPlayer
+		permanentCards: aListOfPermanentCardsOfPlayer; yourself
 ]
 
 { #category : #cardActions }
@@ -50,13 +50,7 @@ PlayersOfAGame >> addCard: aCard toPlayer: aPlayer [
 
 { #category : #playerActions }
 PlayersOfAGame >> allPlayers [
-	^ listOfPositionOfPlayers collect: [ :eachPositionOfPlayer | eachPositionOfPlayer player ]
-]
-
-{ #category : #positionActions }
-PlayersOfAGame >> allPositionRecord [
-	^ listOfPositionOfPlayers collect: [ :eachPositionOfPlayer | eachPositionOfPlayer allPositionRecord ]
-
+	^ positionRecord collect: [ :eachPositionOfPlayer | eachPositionOfPlayer player ]
 ]
 
 { #category : #description }
@@ -66,7 +60,7 @@ PlayersOfAGame >> amountOfCardsOf: aPlayer [
 
 { #category : #cardActions }
 PlayersOfAGame >> applyCardTo: aPlayer [ 
-	^ (self permanentCardsOf: aPlayer) applyEffects.
+	^ (self cardsOfPlayer: aPlayer) applyEffects.
 ]
 
 { #category : #cardActions }
@@ -76,18 +70,18 @@ PlayersOfAGame >> applyCardToAll: aCard [
 
 { #category : #cardActions }
 PlayersOfAGame >> cardsOfPlayer: aPlayer [
-	^ listOfCardsOfPlayer do: [ :cardsOfAPlayer | cardsOfAPlayer player = aPlayer ifTrue: [ ^cardsOfAPlayer ] ].
+	^ cardsOfPlayer  do: [ :cardsOfAPlayer | cardsOfAPlayer player = aPlayer ifTrue: [ ^cardsOfAPlayer ] ].
 ]
 
 { #category : #playerActions }
 PlayersOfAGame >> hasAnyPlayerReachedPosition: aPosition [ 
-	^ (self allPositionRecord) anySatisfy: [ :eachPositionRecord | eachPositionRecord position > aPosition ]
+	^ positionRecord anySatisfy: [ :eachPositionRecord | eachPositionRecord position > aPosition ]
 ]
 
 { #category : #initialization }
-PlayersOfAGame >> initializeWithListOfPositionOfPlayers: aListOfPositionOfPlayers listOfCardsOfPlayers: aListOfCardsOfPlayer listOfPermanentCardsOfPlayers: aListOfPermanentCardsOfPlayers [
-	listOfPositionOfPlayers := aListOfPositionOfPlayers.
-	listOfCardsOfPlayer := aListOfCardsOfPlayer.
+PlayersOfAGame >> initializeWithPositionRecords: aListOfPositionOfPlayers cards: aListOfCardsOfPlayer permanentCards: aListOfPermanentCardsOfPlayers [
+	positionRecord := aListOfPositionOfPlayers.
+	cardsOfPlayer := aListOfCardsOfPlayer.
 	listOfPermanentCardsOfPlayer := aListOfPermanentCardsOfPlayers.
 ]
 
@@ -99,13 +93,13 @@ PlayersOfAGame >> permanentCardsOf: aPlayer [
 
 { #category : #positionActions }
 PlayersOfAGame >> positionRecordsOf: aPlayer [ 
-	listOfPositionOfPlayers do: [ :eachPositionOfPlayer | eachPositionOfPlayer player = aPlayer ifTrue: [ ^eachPositionOfPlayer allPositionRecord ] ].
+	^ positionRecord detect: [ :eachPositionRecord | eachPositionRecord player = aPlayer ].
 ]
 
 { #category : #'ranking of the game' }
 PlayersOfAGame >> ranking [
-	(listOfPositionOfPlayers) sort: [ :element1 :element2 | (element1 allPositionRecord) position  > (element2 allPositionRecord) position].
-	^ listOfPositionOfPlayers collect: [ :element | element player ]
+	(positionRecord) sort: [ :element1 :element2 | element1 position  > element2 position].
+	^ positionRecord collect: [ :element | element player ]
 ]
 
 { #category : #'ranking of the game' }
@@ -115,11 +109,12 @@ PlayersOfAGame >> rankingPositionOf: aPlayer [
 ]
 
 { #category : #removing }
-PlayersOfAGame >> removeCard: aCard [
-	listOfPermanentCardsOfPlayer do: [ :eachPermanentCardsOfPlayer | eachPermanentCardsOfPlayer removeCard: aCard  ]
+PlayersOfAGame >> remove: aCard to: aPlayer [
+	(cardsOfPlayer detect: [ :cards | cards player = aPlayer ]) discard: aCard
+	
 ]
 
 { #category : #playerActions }
 PlayersOfAGame >> sendAllPlayersToInitialPosition [ 
-	(self allPositionRecord ) do: [ :eachPositionOfPlayer | eachPositionOfPlayer moveToBeginning ].
+	positionRecord  do: [ :eachPlayer | eachPlayer moveToBeginning ].
 ]

@@ -27,7 +27,7 @@ Class {
 }
 
 { #category : #action }
-SpeedCard >> cardOn: aGame [
+SpeedCard >> applyEffectOn: cardOrPlayer in: aGame [
 	aGame lastCardUsed: self.
 	^ 1
 ]

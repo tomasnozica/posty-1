@@ -27,7 +27,7 @@ Class {
 }
 
 { #category : #action }
-CancellationCard >> cardOn: aGame [ 
+CancellationCard >> applyEffectOn: card in: aGame [ 
 	aGame lastCardUsed: self.
-	^ 0.
+	aGame removePermanentCard: card. 
 ]

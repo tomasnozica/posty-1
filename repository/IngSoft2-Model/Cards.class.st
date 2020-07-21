@@ -27,6 +27,6 @@ Class {
 }
 
 { #category : #action }
-Cards >> cardOn: anObject [ 
+Cards >> applyEffectOn: anObject in: anObject1 [ 
 	self subclassResponsibility 
 ]

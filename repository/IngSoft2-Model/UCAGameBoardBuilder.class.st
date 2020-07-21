@@ -46,8 +46,13 @@ UCAGameBoardBuilder >> addAtomicBomb [
 ]
 
 { #category : #adding }
+UCAGameBoardBuilder >> addCard [
+	1 to: 10 do: [ :index | draft add: (CardEffect new) ]
+]
+
+{ #category : #adding }
 UCAGameBoardBuilder >> addEmptyEffect [
-	1 to: 48 do: [ :index | draft add: (EmptyEffect  new) ]
+	1 to: 45 do: [ :index | draft add: (EmptyEffect  new) ]
 ]
 
 { #category : #adding }

@@ -57,6 +57,11 @@ CardsOfAPlayer >> amountOfCards [
 	^ cards size
 ]
 
+{ #category : #accessing }
+CardsOfAPlayer >> discard: aCard [
+	cards remove: aCard
+]
+
 { #category : #initialization }
 CardsOfAPlayer >> initializeWithPlayer: aPlayer cards: twoCards [
 	player := aPlayer .

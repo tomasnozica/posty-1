@@ -54,11 +54,8 @@ BoxTest >> setUp [
 	jack := Player called: 'Jack'.
 	ben := Player called: 'Ben'.
 	players := OrderedCollection with: jack with: ben.
-	timeMachine := TimeMachineEffect new.
 	theBlanckCard := CardWithNoEffect new.
-	theNoEffectCards := OrderedCollection
-		fromDraft: theBlanckCard
-		andSize: nil.
+	theNoEffectCards := OrderedCollection with: theBlanckCard  with: theBlanckCard .
 	deckOfCards := DeckOfCards withEffects: theNoEffectCards
 ]
 

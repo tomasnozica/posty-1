@@ -27,7 +27,7 @@ Class {
 }
 
 { #category : #action }
-CardWithNoEffect >> cardOn: aGame [
+CardWithNoEffect >> applyEffectOn: cardOrPlayer in: aGame [
 	aGame lastCardUsed: self. 
-	^0
+	^ 0
 ]

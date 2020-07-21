@@ -47,11 +47,6 @@ DeckOfCards >> initializeWithEffects: aListOfEffects [
 ]
 
 { #category : #action }
-DeckOfCards >> isAValidEffect: anEffect [
-	^ listOfEffects anySatisfy: [ :effect | effect = anEffect  ]
-]
-
-{ #category : #action }
 DeckOfCards >> pickACard [
 	^ listOfEffects at: ((random next * listOfEffects size) floor +1).
 ]

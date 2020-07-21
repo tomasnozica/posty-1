@@ -32,6 +32,11 @@ BoardBuilder >> addAtomicBomb [
 ]
 
 { #category : #adding }
+BoardBuilder >> addCard [
+	self subclassResponsibility 
+]
+
+{ #category : #adding }
 BoardBuilder >> addEmptyEffect [
 	self subclassResponsibility 
 ]

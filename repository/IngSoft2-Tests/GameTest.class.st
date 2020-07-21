@@ -40,7 +40,8 @@ Class {
 		'card',
 		'deckOfCards',
 		'theBlanckCard',
-		'theNoEffectCards'
+		'theNoEffectCards',
+		'boardBuilder'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -68,35 +69,18 @@ GameTest >> setUp [
 	diceOne := SameFaceDice withFaces: 4.
 	diceOne nextRollNumber: 4.
 	diceTwo := SameFaceDice withFaces: 5.
-	empty := EmptyEffect new.
-	card := CardEffect new.
-	boxes := OrderedCollection
-		with: empty
-		with: empty
-		with: empty
-		with: empty
-		with: card
-		with: empty.
-	boxes add: empty.
-	boxes add: empty.
-	boxes add: empty.
-	boxes add: empty.
-	aBoard := Board fromDraft: boxes andSize: nil.
+	boardBuilder := UCAGameBoardBuilder ofSize: 10.
+	boardBuilder addEmptyEffect .
+	aBoard := boardBuilder build.
 	theBlanckCard := CardWithNoEffect new.
 	theNoEffectCards := OrderedCollection
 		fromDraft: theBlanckCard
 		andSize: nil.
 	deckOfCards := DeckOfCards withEffects: theNoEffectCards.
-	twoPlayerGame := Game
-		withBoard: aBoard
-		withLaps: 2
-		withPlayers: players
-		with: deckOfCards.
-	threePlayerGame := Game
-		withBoard: aBoard
-		withLaps: 5
-		withPlayers: threePlayers
-		with: deckOfCards
+	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
+
+
+
 ]
 
 { #category : #tests }
@@ -205,18 +189,6 @@ GameTest >> testPlayerPlaysWithDifferentDices [
 ]
 
 { #category : #tests }
-GameTest >> testPlayerUsesACardAndHaveOneLess [
-	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self assert: (twoPlayerGame amountOfCardsOf: jack) equals: 3.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame thePlayer: jack usesTheCard: theBlanckCard.
-	self assert: (twoPlayerGame amountOfCardsOf: jack) equals: 2.
-	
-	
-]
-
-{ #category : #tests }
 GameTest >> testStepsOfAGame [
 	self assert: twoPlayerGame steps equals: 10. 
 ]
@@ -224,18 +196,11 @@ GameTest >> testStepsOfAGame [
 { #category : #tests }
 GameTest >> testTheRankingOfTheGame [
 	diceOne nextRollNumber: 5.
-	threePlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: diceOne.
 	diceOne nextRollNumber: 6.
-	threePlayerGame newTurnWithDice: diceOne.
-	diceOne nextRollNumber: 4.
-	threePlayerGame newTurnWithDice: diceOne.
-	diceOne nextRollNumber: 4.
-	threePlayerGame newTurnWithDice: diceOne.
-	diceOne nextRollNumber: 5.
-	threePlayerGame newTurnWithDice: diceOne.
-	self assert: (threePlayerGame rankingPositionOf: jack) equals: 2.
-	self assert: (threePlayerGame rankingPositionOf: ben) equals: 1.
-	self assert: (threePlayerGame rankingPositionOf: louis) equals: 3.
+	twoPlayerGame  newTurnWithDice: diceOne.
+	self assert: (twoPlayerGame  rankingPositionOf: jack) equals: 2.
+	self assert: (twoPlayerGame  rankingPositionOf: ben) equals: 1.
 ]
 
 { #category : #tests }
