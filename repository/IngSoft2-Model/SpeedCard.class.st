@@ -23,11 +23,25 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #SpeedCard,
 	#superclass : #Cards,
+	#instVars : [
+		'player'
+	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #action }
-SpeedCard >> applyEffectOn: cardOrPlayer in: aGame [
+SpeedCard >> applyEffectOn: aPlayer in: aGame [
 	aGame lastCardUsed: self.
-	^ 1
+	aGame addPermanentCard: self .
+	player := aPlayer.
+]
+
+{ #category : #'as yet unclassified' }
+SpeedCard >> effect [ 
+	^1
+]
+
+{ #category : #accessing }
+SpeedCard >> player [
+	^ player
 ]

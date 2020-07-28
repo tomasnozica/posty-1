@@ -86,8 +86,8 @@ Game >> amountOfCardsOf: aPlayer [
 { #category : #'effect of cards' }
 Game >> applyCardTo: aPlayer [
 	| a |
-	a := permanentCards select: [ :aPermanentCard | ((aPermanentCard player = playersOfTheGame) | (aPermanentCard player = aPlayer) ) ].
-	a isEmpty ifFalse: [ ^ (a collect: [ :each | each effect ]) sum ] ifTrue: [ ^2 ].
+	a := permanentCards select: [ :aPermanentCard | ((aPermanentCard player = listOfPlayers ) | (aPermanentCard player = aPlayer) ) ].
+	a isEmpty ifFalse: [ ^ (a collect: [ :each | each effect ]) sum ] ifTrue: [ ^0 ].
 	
 ]
 
@@ -161,7 +161,7 @@ Game >> lapOf: aPlayer [
 
 { #category : #accessing }
 Game >> lastCardUsed [
-	^ lastCardUsed 
+	^ lastCardUsed
 ]
 
 { #category : #accessing }
