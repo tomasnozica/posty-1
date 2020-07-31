@@ -30,7 +30,7 @@ Class {
 }
 
 { #category : #action }
-Effect >> effectOn: aGame [
+Effect >> effectOn: aPlayer in: aGame [
 
 	self subclassResponsibility
 ]

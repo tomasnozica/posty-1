@@ -129,8 +129,9 @@ Game >> currentPlayer [
 ]
 
 { #category : #'effect of cards' }
-Game >> doEffectOnLastPosition [
-	board doEffectOnLastPosition: (self currentPlayer) in: self.
+Game >> doEffectOnLastPositionOf: aPlayer [
+	board doEffectOnLastPosition: aPlayer in: self.
+	
 ]
 
 { #category : #initializing }

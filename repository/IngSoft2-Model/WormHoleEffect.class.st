@@ -27,6 +27,6 @@ Class {
 }
 
 { #category : #action }
-WormHoleEffect >> effectOn: aGame [ 
-	aGame move: (aGame currentPlayer) anAmountOfBoxes: (4 negated)
+WormHoleEffect >> effectOn: aPlayer in: aGame [ 
+	aGame move: aPlayer anAmountOfBoxes: (4 negated)
 ]

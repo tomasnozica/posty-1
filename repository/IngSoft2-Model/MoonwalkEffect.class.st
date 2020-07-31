@@ -37,7 +37,7 @@ MoonwalkEffect class >> numberOfStepsBack: aNumber [
 ]
 
 { #category : #action }
-MoonwalkEffect >> effectOn: aGame [
+MoonwalkEffect >> effectOn: aPlayer in: aGame [
 	(aGame restOfPlayers) do: [ :player | aGame move: player anAmountOfBoxes: (numberOfStepsBack negated)  ]
 ]
 

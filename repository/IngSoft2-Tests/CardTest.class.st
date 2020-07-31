@@ -55,7 +55,7 @@ CardTest >> setUp [
 	diceOne := SameFaceDice withFaces: 4.
 	diceOne nextRollNumber: 4.
 	diceTwo := SameFaceDice withFaces: 5.
-	boardBuilder := UCAGameBoardBuilder ofSize: 10.
+	boardBuilder := DeterministicBuilder ofSize: 10.
 	boardBuilder addEmptyEffect .
 	aBoard := boardBuilder build.
 	
@@ -88,7 +88,7 @@ CardTest >> testCancellation [
 	| cardTypes acceleration cancellation deckOfCards twoPlayerGame |
 	acceleration := AccelerationCard new.
 	cancellation := CancellationCard new.
-	cardTypes := OrderedCollection with:acceleration with:cancellation .
+	cardTypes := OrderedCollection with:acceleration with: cancellation  .
 	deckOfCards := DeckOfCards withEffects: cardTypes.
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	twoPlayerGame thePlayer: jack willHaveTheCards: (OrderedCollection with: acceleration with: cancellation).
@@ -120,6 +120,19 @@ CardTest >> testOverload [
 ]
 
 { #category : #tests }
+CardTest >> testPlayerHasNotTheCard [
+	| acceleration speed deckOfCards twoPlayerGame cardTypes |
+	acceleration := AccelerationCard new.
+	speed := SpeedCard new.
+	cardTypes := OrderedCollection new.
+	cardTypes add: acceleration.
+	deckOfCards := DeckOfCards withEffects: cardTypes.
+	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
+	self should: [twoPlayerGame thePlayer: jack wantsToUseTheCard: speed on: players] raise: Error.
+	
+]
+
+{ #category : #tests }
 CardTest >> testRandomPickCard [
 	| cardTypes overload speed acceleration cancellation redo repeat deckOfCards aCard |
 	overload := OverloadCard new.
@@ -132,11 +145,6 @@ CardTest >> testRandomPickCard [
 	deckOfCards := DeckOfCards withEffects: cardTypes .
 	aCard := deckOfCards pickACard.
 	self assert: (cardTypes anySatisfy: [ :anEffect | anEffect = aCard ] )
-]
-
-{ #category : #tests }
-CardTest >> testRepeat [
-	self assert: true.
 ]
 
 { #category : #tests }

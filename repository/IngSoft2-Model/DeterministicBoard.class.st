@@ -1,6 +1,6 @@
 "
 Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
-""repeat""
+""""""
 For the Class part:  State a one line summary. For example, ""I represent a paragraph of text"".
 
 For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
@@ -21,13 +21,15 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #RepeatCard,
-	#superclass : #Cards,
+	#name : #DeterministicBoard,
+	#superclass : #Board,
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #action }
-RepeatCard >> applyEffectOn: aPlayer in: aGame [
-	aGame doEffectOnLastPositionOf: aPlayer.
-	^ 0
+{ #category : #initialize }
+DeterministicBoard >> initializeFromDraft: aDraft andSize: aSize [ 
+	| emptyEffect |
+	emptyEffect := EmptyEffect new.
+	board := OrderedCollection new.
+	(1 to: aSize ) collect: [ :element | element = 5 ifTrue: [board add: aDraft] ifFalse: [ board add: emptyEffect ] ].
 ]

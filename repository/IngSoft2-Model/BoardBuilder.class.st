@@ -26,6 +26,13 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #'instance creation' }
+BoardBuilder class >> ofSize: aSize [
+	^ self new
+		initiatializeWithSize: aSize;
+		yourself
+]
+
 { #category : #adding }
 BoardBuilder >> addAtomicBomb [
 	self subclassResponsibility 

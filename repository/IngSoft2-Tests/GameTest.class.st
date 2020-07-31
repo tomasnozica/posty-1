@@ -69,10 +69,10 @@ GameTest >> setUp [
 	diceOne := SameFaceDice withFaces: 4.
 	diceOne nextRollNumber: 4.
 	diceTwo := SameFaceDice withFaces: 5.
-	boardBuilder := UCAGameBoardBuilder ofSize: 10.
+	boardBuilder := DeterministicBuilder ofSize: 10.
 	boardBuilder addEmptyEffect .
 	aBoard := boardBuilder build.
-	theBlanckCard := CardWithNoEffect new.
+	theBlanckCard := BlankCard new.
 	theNoEffectCards := OrderedCollection
 		fromDraft: theBlanckCard
 		andSize: nil.

@@ -27,6 +27,6 @@ Class {
 }
 
 { #category : #action }
-SpeedUpEffect >> effectOn: aGame [ 
-	aGame move: (aGame currentPlayer) anAmountOfBoxes: 4
+SpeedUpEffect >> effectOn: aPlayer in: aGame [ 
+	aGame move: aPlayer anAmountOfBoxes: 4
 ]

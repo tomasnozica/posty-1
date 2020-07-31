@@ -54,7 +54,7 @@ BoxTest >> setUp [
 	jack := Player called: 'Jack'.
 	ben := Player called: 'Ben'.
 	players := OrderedCollection with: jack with: ben.
-	theBlanckCard := CardWithNoEffect new.
+	theBlanckCard := BlankCard new.
 	theNoEffectCards := OrderedCollection with: theBlanckCard  with: theBlanckCard .
 	deckOfCards := DeckOfCards withEffects: theNoEffectCards
 ]

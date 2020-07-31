@@ -27,6 +27,6 @@ Class {
 }
 
 { #category : #action }
-EmptyEffect >> effectOn: aGame [ 
+EmptyEffect >> effectOn: aGame in: anObject [ 
 	"when this effect appears nothings happend"
 ]

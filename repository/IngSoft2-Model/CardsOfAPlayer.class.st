@@ -59,7 +59,7 @@ CardsOfAPlayer >> amountOfCards [
 
 { #category : #accessing }
 CardsOfAPlayer >> discard: aCard [
-	cards remove: aCard
+	cards remove: aCard ifAbsent: [self error: 'El jugador no tiene la carta']
 ]
 
 { #category : #initialization }

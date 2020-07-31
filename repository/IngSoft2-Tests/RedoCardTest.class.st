@@ -52,7 +52,7 @@ RedoCardTest >> setUp [
 	ben := Player called: 'Ben'.
 	players := OrderedCollection with: jack with: ben.
 	diceOne := SameFaceDice withFaces: 4.
-	boardBuilder := UCAGameBoardBuilder ofSize: 10.
+	boardBuilder := DeterministicBuilder ofSize: 10.
 	boardBuilder addEmptyEffect .
 	aBoard := boardBuilder build.
 	acceleration := AccelerationCard new.

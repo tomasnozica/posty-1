@@ -46,20 +46,22 @@ Board >> amountOfBoxes [
 
 { #category : #actions }
 Board >> doEffectOn: aPlayer in: aGame [
-	(board at: (aGame positionOf: aPlayer)) effectOn: aGame
+	(board at: (aGame positionOf: aPlayer)) effectOn: aPlayer in: aGame
 ]
 
 { #category : #actions }
 Board >> doEffectOnLastPosition: aPlayer in: aGame [
-	(board at: (aGame lastPositionOf: aPlayer)) effectOn: aGame
+	(board at: (aGame lastPositionOf: aPlayer)) effectOn: aPlayer in: aGame 
 ]
 
 { #category : #initialize }
 Board >> initializeFromDraft: aDraft andSize: aSize [ 
-	| random  |
+	self subclassResponsibility .
+	
+	"| random  |
 	random := Random new.
 	board := OrderedCollection new.
-	(1 to: aSize) collect: [ :element1 | board add: (aDraft at: ((random next * aDraft size) asInteger + 1)) ].
+	(1 to: aSize) collect: [ :element1 | board add: (aDraft at: ((random next * aDraft size) asInteger + 1)) ]."
 ]
 
 { #category : #actions }
@@ -70,7 +72,7 @@ Board >> lapAccordingToBoard: aPosition [
 { #category : #actions }
 Board >> positionAccordingToBoard: aPosition [
 	aPosition < 0
-		ifTrue: [ ^ aPosition + self amountOfBoxes ].
+		ifTrue: [ ^ 0].
 	aPosition <= self amountOfBoxes
 		ifTrue: [ ^ aPosition  ]
 		ifFalse: [ ^ aPosition - (aPosition // self amountOfBoxes * self amountOfBoxes) ]
