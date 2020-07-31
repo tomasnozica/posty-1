@@ -23,10 +23,24 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #RedoCard,
 	#superclass : #Cards,
+	#instVars : [
+		'player',
+		'behaviorOfCard'
+	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #action }
-RedoCard >> applyEffectOn: cardOrPlayer in: aGame [
-	^ (aGame lastCardUsed) applyEffectOn: cardOrPlayer in: aGame
+RedoCard >> applyEffectOn: aCardOrPlayer in: aGame [
+	(aGame lastCardUsed class new) applyEffectOn: aCardOrPlayer in: aGame.
+]
+
+{ #category : #'as yet unclassified' }
+RedoCard >> effect [ 
+	^ behaviorOfCard effect.
+]
+
+{ #category : #accessing }
+RedoCard >> player [ 
+	^ player
 ]

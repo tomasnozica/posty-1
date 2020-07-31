@@ -142,6 +142,8 @@ CardTest >> testRedoPermanentCard [
 	cardTypes := OrderedCollection with: speed with:redo.
 	deckOfCards := DeckOfCards withEffects: cardTypes.
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
+	twoPlayerGame thePlayer: jack willHaveTheCards: (OrderedCollection with: speed with: speed).
+	twoPlayerGame thePlayer: ben willHaveTheCards: (OrderedCollection with: redo with: redo).
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: speed on: ben.
 	diceOne nextRollNumber: 2.
 	twoPlayerGame newTurnWithDice: diceOne. "jack"
