@@ -84,21 +84,6 @@ CardTest >> testAcceleration [
 ]
 
 { #category : #tests }
-CardTest >> testAnyRandomCardIPickIsOneOfTheTypesGiven [
-	| cardTypes overload speed acceleration cancellation redo repeat deckOfCards aCard |
-	overload := OverloadCard new.
-	speed := SpeedCard new.
-	acceleration := AccelerationCard new.
-	cancellation := CancellationCard new.
-	redo := RedoCard new.
-	repeat := RepeatCard new.
-	cardTypes := OrderedCollection with: overload with: speed with: acceleration with: cancellation with: redo with: repeat.
-	deckOfCards := DeckOfCards withEffects: cardTypes .
-	aCard := deckOfCards pickACard.
-	self assert: (cardTypes anySatisfy: [ :anEffect | anEffect = aCard ] )
-]
-
-{ #category : #tests }
 CardTest >> testCancellation [
 	| cardTypes acceleration cancellation deckOfCards twoPlayerGame |
 	acceleration := AccelerationCard new.
@@ -135,27 +120,18 @@ CardTest >> testOverload [
 ]
 
 { #category : #tests }
-CardTest >> testRedoPermanentCard [
-	| speed redo deckOfCards twoPlayerGame cardTypes |
+CardTest >> testRandomPickCard [
+	| cardTypes overload speed acceleration cancellation redo repeat deckOfCards aCard |
+	overload := OverloadCard new.
 	speed := SpeedCard new.
+	acceleration := AccelerationCard new.
+	cancellation := CancellationCard new.
 	redo := RedoCard new.
-	cardTypes := OrderedCollection with: speed with:redo.
-	deckOfCards := DeckOfCards withEffects: cardTypes.
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
-	twoPlayerGame thePlayer: jack willHaveTheCards: (OrderedCollection with: speed with: speed).
-	twoPlayerGame thePlayer: ben willHaveTheCards: (OrderedCollection with: redo with: redo).
-	twoPlayerGame thePlayer: jack wantsToUseTheCard: speed on: ben.
-	diceOne nextRollNumber: 2.
-	twoPlayerGame newTurnWithDice: diceOne. "jack"
-	twoPlayerGame newTurnWithDice: diceOne. "ben"
-	self assertPosition: 2 andLap: 0 for: jack in: twoPlayerGame.
-	self assertPosition: 3 andLap: 0 for: ben in: twoPlayerGame.
-	twoPlayerGame newTurnWithDice: diceOne. "jack"
-	self assertPosition: 4 andLap: 0  for: jack in: twoPlayerGame . 
-	twoPlayerGame thePlayer: ben wantsToUseTheCard: redo on: jack.
-	twoPlayerGame newTurnWithDice: diceOne. "ben"
-	twoPlayerGame newTurnWithDice: diceOne. 
-	self assertPosition: 7 andLap: 0  for: jack in: twoPlayerGame . 
+	repeat := RepeatCard new.
+	cardTypes := OrderedCollection with: overload with: speed with: acceleration with: cancellation with: redo with: repeat.
+	deckOfCards := DeckOfCards withEffects: cardTypes .
+	aCard := deckOfCards pickACard.
+	self assert: (cardTypes anySatisfy: [ :anEffect | anEffect = aCard ] )
 ]
 
 { #category : #tests }
