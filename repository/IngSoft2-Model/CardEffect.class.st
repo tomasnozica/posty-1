@@ -27,6 +27,6 @@ Class {
 }
 
 { #category : #action }
-CardEffect >> effectOn: aGame in: anObject [ 
-	aGame addCardToPlayer: (aGame currentPlayer)
+CardEffect >> effectOn: aPlayer in: aGame [ 
+	aGame addCardToPlayer: aPlayer.
 ]

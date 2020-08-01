@@ -45,7 +45,7 @@ PlayersOfAGame class >> listOfPositionOfPlayers: aListOfPositionOfPlayers listOf
 
 { #category : #cardActions }
 PlayersOfAGame >> addCard: aCard toPlayer: aPlayer [ 
-	(self cardsOfPlayer: aPlayer) addCard: aCard.
+	(self cardsOf: aPlayer) addCard: aCard.
 ]
 
 { #category : #playerActions }
@@ -55,22 +55,17 @@ PlayersOfAGame >> allPlayers [
 
 { #category : #description }
 PlayersOfAGame >> amountOfCardsOf: aPlayer [
-	^ (self cardsOfPlayer: aPlayer) amountOfCards.
+	^ (self cardsOf: aPlayer) amountOfCards.
 ]
 
 { #category : #cardActions }
 PlayersOfAGame >> applyCardTo: aPlayer [ 
-	^ (self cardsOfPlayer: aPlayer) applyEffects.
+	^ (self cardsOf: aPlayer) applyEffects.
 ]
 
 { #category : #cardActions }
-PlayersOfAGame >> applyCardToAll: aCard [ 
-	listOfPermanentCardsOfPlayer do: [ :eachPermanentCardsOfPlayer | eachPermanentCardsOfPlayer addCard: aCard  ]
-]
-
-{ #category : #cardActions }
-PlayersOfAGame >> cardsOfPlayer: aPlayer [
-	^ cardsOfPlayer  do: [ :cardsOfAPlayer | cardsOfAPlayer player = aPlayer ifTrue: [ ^cardsOfAPlayer ] ].
+PlayersOfAGame >> cardsOf: aPlayer [
+	^ cardsOfPlayer detect: [ :cardsOf | cardsOf player = aPlayer  ].
 ]
 
 { #category : #playerActions }
@@ -87,8 +82,9 @@ PlayersOfAGame >> initializeWithPositionRecords: aListOfPositionOfPlayers cards:
 
 { #category : #cardActions }
 PlayersOfAGame >> permanentCardsOf: aPlayer [ 
-	^ listOfPermanentCardsOfPlayer do: [ :permenentCardsOfAPlayer | permenentCardsOfAPlayer player = aPlayer ifTrue: [ ^permenentCardsOfAPlayer allCards ] ].
-
+	| permanentCardsOfPlayer |
+	permanentCardsOfPlayer := listOfPermanentCardsOfPlayer detect: [ :permanentCardsOf | permanentCardsOf player = aPlayer ].
+	^ permanentCardsOfPlayer allCards.
 ]
 
 { #category : #positionActions }

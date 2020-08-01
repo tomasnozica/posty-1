@@ -74,11 +74,6 @@ CardsOfAPlayer >> player [
 ]
 
 { #category : #action }
-CardsOfAPlayer >> usesTheCard: aCard [ 
-	cards remove: aCard.
-]
-
-{ #category : #action }
 CardsOfAPlayer >> willHaveTheCards: collectionOfCards [
 	cards := collectionOfCards.
 ]

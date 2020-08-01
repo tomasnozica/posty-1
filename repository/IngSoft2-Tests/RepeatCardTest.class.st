@@ -76,6 +76,22 @@ RepeatCardTest >> testRepeatAtomicBombEffect [
 ]
 
 { #category : #tests }
+RepeatCardTest >> testRepeatCardEffect [
+	|  twoPlayerGame  |
+	boardBuilder addCard.
+	aBoard := boardBuilder build.
+	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
+	diceOne nextRollNumber: 5.
+	twoPlayerGame newTurnWithDice: diceOne.
+	diceOne nextRollNumber: 3.
+	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame thePlayer: ben wantsToUseTheCard: repeat on: jack. 
+	self assert: (twoPlayerGame amountOfCardsOf: jack) equals: 4.
+	self assert: (twoPlayerGame amountOfCardsOf: ben) equals: 1.
+]
+
+{ #category : #tests }
 RepeatCardTest >> testRepeatEmptyEffect [
 	|  twoPlayerGame  |
 	boardBuilder addEmptyEffect .

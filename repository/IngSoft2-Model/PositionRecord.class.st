@@ -42,11 +42,6 @@ PositionRecord >> addNewRecord: aNumber [
 	recordOfPositions add: aNumber.
 ]
 
-{ #category : #adding }
-PositionRecord >> deleteLastRecord [
-	recordOfPositions remove: (recordOfPositions last).
-]
-
 { #category : #initialization }
 PositionRecord >> initializeForPlayer: aPlayer [
 	player := aPlayer .

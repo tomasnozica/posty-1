@@ -170,8 +170,8 @@ Game >> lastCardUsed: aCard [
 	lastCardUsed := aCard.
 ]
 
-{ #category : #positions }
-Game >> lastLapOf: aPlayer [ 
+{ #category : #accessing }
+Game >> lastLapOf: aPlayer [
 	^ board lapAccordingToBoard: (playersOfTheGame positionRecordsOf: aPlayer) lastPosition
 ]
 
@@ -234,11 +234,6 @@ Game >> sendAllPlayersToInitialPosition [
 	playersOfTheGame sendAllPlayersToInitialPosition
 ]
 
-{ #category : #positions }
-Game >> sendToLastPosition: aPlayer [
-	(playersOfTheGame positionRecordsOf: aPlayer) deleteLastRecord.
-]
-
 { #category : #description }
 Game >> steps [
 	^ board amountOfBoxes
@@ -253,7 +248,7 @@ Game >> thePlayer: aPlayer wantsToUseTheCard: aCard on: cardOrPlayer [
 
 { #category : #'ways to use cards' }
 Game >> thePlayer: aPlayer willHaveTheCards: cards [ 
-	(playersOfTheGame cardsOfPlayer: aPlayer) willHaveTheCards: cards.
+	(playersOfTheGame cardsOf: aPlayer) willHaveTheCards: cards.
 ]
 
 { #category : #'ranking of the game' }
