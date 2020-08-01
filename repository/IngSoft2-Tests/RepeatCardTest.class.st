@@ -90,6 +90,44 @@ RepeatCardTest >> testRepeatEmptyEffect [
 ]
 
 { #category : #tests }
+RepeatCardTest >> testRepeatMoonWalk [
+	|  twoPlayerGame  |
+	boardBuilder addMoonWalk .
+	aBoard := boardBuilder build.
+	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
+	diceOne nextRollNumber: 8.
+	twoPlayerGame newTurnWithDice: diceOne.
+	diceOne nextRollNumber: 5.
+	twoPlayerGame newTurnWithDice: diceOne.
+	self assertPosition: 6 andLap: 0 for: jack in: twoPlayerGame.
+	self assertPosition: 5 andLap: 0 for: ben in: twoPlayerGame.
+	diceOne nextRollNumber: 3.
+	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame thePlayer: jack wantsToUseTheCard: repeat on: ben.
+	self assertPosition: 9 andLap: 0 for: jack in: twoPlayerGame.
+	self assertPosition: 6  andLap: 0 for: ben in: twoPlayerGame.
+]
+
+{ #category : #tests }
+RepeatCardTest >> testRepeatSpeedUp [
+	|  twoPlayerGame  |
+	boardBuilder addSpeedUp .
+	aBoard := boardBuilder build.
+	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
+	diceOne nextRollNumber: 3.
+	twoPlayerGame newTurnWithDice: diceOne.
+	diceOne nextRollNumber: 5.
+	twoPlayerGame newTurnWithDice: diceOne.
+	self assertPosition: 3 andLap: 0 for: jack in: twoPlayerGame.
+	self assertPosition: 9 andLap: 0 for: ben in: twoPlayerGame.
+	twoPlayerGame thePlayer: jack wantsToUseTheCard: repeat on: ben.
+	twoPlayerGame newTurnWithDice: diceOne.
+	self assertPosition: 8 andLap: 0 for: jack in: twoPlayerGame.
+	self assertPosition: 3 andLap: 1 for: ben in: twoPlayerGame.
+]
+
+{ #category : #tests }
 RepeatCardTest >> testRepeatWormHoleEffect [
 	|  twoPlayerGame  |
 	boardBuilder addWormHole .

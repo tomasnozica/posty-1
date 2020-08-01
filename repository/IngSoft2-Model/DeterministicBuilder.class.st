@@ -47,7 +47,7 @@ DeterministicBuilder >> addEmptyEffect [
 
 { #category : #adding }
 DeterministicBuilder >> addMoonWalk [
-	draft := MoonwalkEffect new.
+	draft := MoonwalkEffect numberOfStepsBack: 2.
 ]
 
 { #category : #adding }
