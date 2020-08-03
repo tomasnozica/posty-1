@@ -46,6 +46,11 @@ DeterministicBuilder >> addEmptyEffect [
 ]
 
 { #category : #adding }
+DeterministicBuilder >> addJailEffect [ 
+	draft := JailEffect new.
+]
+
+{ #category : #adding }
 DeterministicBuilder >> addMoonWalk [
 	draft := MoonwalkEffect numberOfStepsBack: 2.
 ]

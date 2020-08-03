@@ -38,7 +38,8 @@ Class {
 		'deckOfCards',
 		'playersOfTheGame',
 		'lastCardUsed',
-		'permanentCards'
+		'permanentCards',
+		'free'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -73,11 +74,6 @@ Game >> addPermanentCard: aCard [
 	permanentCards add: aCard
 ]
 
-{ #category : #'effect of cards' }
-Game >> addPermanentCard: aCard to: aPlayer [ 
-	(playersOfTheGame permanentCardsOf: aPlayer) addCard: aCard.
-]
-
 { #category : #description }
 Game >> amountOfCardsOf: aPlayer [ 
 	^ playersOfTheGame amountOfCardsOf: aPlayer.
@@ -98,6 +94,11 @@ Game >> assertGameIsOver [
 ]
 
 { #category : #asserting }
+Game >> assertIsInJail: aPlayer [
+	(playersOfTheGame isFree: aPlayer ) ifFalse: [ self error: 'Estas en la carcel' ].
+]
+
+{ #category : #asserting }
 Game >> assertIsTheTurnOf: aPlayer [
 	aPlayer = self currentPlayer
 		ifFalse: [ self error: 'Not your turn' ]
@@ -110,12 +111,20 @@ Game >> createCardsOfPlayer: aListOfPlayers [
 			[ :player | CardsOfAPlayer player: player cards: self pickTwoRandomCards ]
 ]
 
+{ #category : #'jail actions' }
+Game >> createFreedomOfPlayer: aListOfPlayers [
+	^ aListOfPlayers
+		collect:
+			[ :player | FreedomOfAPlayer player: player ]
+]
+
 { #category : #creation }
 Game >> createPlayersOfAGame: aListOfPlayers [
 	playersOfTheGame := PlayersOfAGame
-		listOfPositionOfPlayers: (self createPositionRecords: aListOfPlayers)
-		listOfCardsOfPlayers: (self createCardsOfPlayer: aListOfPlayers)
-		listOfPermanentCardsOfPlayers: nil.
+		positions: (self createPositionRecords: aListOfPlayers)
+		cards: (self createCardsOfPlayer: aListOfPlayers)
+		permanentCards: nil
+		freedom: (self createFreedomOfPlayer: aListOfPlayers )
 ]
 
 { #category : #creation }
@@ -132,6 +141,13 @@ Game >> currentPlayer [
 Game >> doEffectOnLastPositionOf: aPlayer [
 	board doEffectOnLastPosition: aPlayer in: self.
 	
+]
+
+{ #category : #testing }
+Game >> has: aSetOfDices gaveMaxValue: aNumber [
+	| maxValue |
+	maxValue := (aSetOfDices collect: [ :aDice | aDice faces ]) sum.
+	maxValue == aNumber ifTrue: [ self setFreeFromJail: (self currentPlayer ) ].
 ]
 
 { #category : #initializing }
@@ -182,15 +198,18 @@ Game >> lastPositionOf: aPlayer [
 
 { #category : #actions }
 Game >> move: aPlayer anAmountOfBoxes: aNumber [
+	"self assertIsInJail: aPlayer."
 	(playersOfTheGame positionRecordsOf: aPlayer) addNewRecord: aNumber + (self applyCardTo: aPlayer) .
 ]
 
 { #category : #actions }
-Game >> newTurnWithDice: aDice [ 
-	| thePlayer|
+Game >> newTurnWithDice: aSetOfDices [ 
+	| thePlayer rollValue |
 	self assertGameIsOver.
 	thePlayer := self currentPlayer.
-	self move: thePlayer anAmountOfBoxes: aDice roll.
+	rollValue := self roll: aSetOfDices .
+	[self assertIsInJail: thePlayer] on: Error do: [self has: aSetOfDices gaveMaxValue: rollValue].
+	self move: thePlayer anAmountOfBoxes: rollValue.
 	board doEffectOn: thePlayer in: self.
 	turnManager updateTurn.
 ]
@@ -229,9 +248,25 @@ Game >> restOfPlayers [
 		select: [ :player | player ~= (self currentPlayer) ]
 ]
 
+{ #category : #actions }
+Game >> roll: aSetOfDices [
+	^ (aSetOfDices collect: [ :aDice | aDice roll]) sum.
+	
+]
+
 { #category : #positions }
 Game >> sendAllPlayersToInitialPosition [
 	playersOfTheGame sendAllPlayersToInitialPosition
+]
+
+{ #category : #'jail actions' }
+Game >> sendToJail: aPlayer [
+	playersOfTheGame sendToJail: aPlayer
+]
+
+{ #category : #'jail actions' }
+Game >> setFreeFromJail: aPlayer [
+	playersOfTheGame setFreeFromJail: aPlayer.
 ]
 
 { #category : #description }

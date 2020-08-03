@@ -48,6 +48,11 @@ UCAGameBoardBuilder >> addEmptyEffect [
 	1 to: 45 do: [ :index | draft add: (EmptyEffect  new) ]
 ]
 
+{ #category : #'as yet unclassified' }
+UCAGameBoardBuilder >> addJailEffect [
+	1 to: 10 do: [ :index | draft add: (JailEffect new) ]
+]
+
 { #category : #adding }
 UCAGameBoardBuilder >> addMoonWalk [
 	| random n |

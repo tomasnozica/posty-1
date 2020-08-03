@@ -29,18 +29,19 @@ Class {
 	#instVars : [
 		'positionRecord',
 		'cardsOfPlayer',
-		'listOfPermanentCardsOfPlayer',
-		'game'
+		'game',
+		'listOfFreedomOfPlayer'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'as yet unclassified' }
-PlayersOfAGame class >> listOfPositionOfPlayers: aListOfPositionOfPlayers listOfCardsOfPlayers: aListOfCardsOfPlayer listOfPermanentCardsOfPlayers: aListOfPermanentCardsOfPlayer [
+PlayersOfAGame class >> positions: aListOfPositionOfPlayers cards: aListOfCardsOfPlayer permanentCards: aListOfPermanentCardsOfPlayer freedom: aListOfFreedomOfPlayer [
 	^ self new
 		initializeWithPositionRecords: aListOfPositionOfPlayers
-		cards: aListOfCardsOfPlayer
-		permanentCards: aListOfPermanentCardsOfPlayer; yourself
+			cards: aListOfCardsOfPlayer
+			freedom: aListOfFreedomOfPlayer;
+		yourself
 ]
 
 { #category : #cardActions }
@@ -74,17 +75,16 @@ PlayersOfAGame >> hasAnyPlayerReachedPosition: aPosition [
 ]
 
 { #category : #initialization }
-PlayersOfAGame >> initializeWithPositionRecords: aListOfPositionOfPlayers cards: aListOfCardsOfPlayer permanentCards: aListOfPermanentCardsOfPlayers [
+PlayersOfAGame >> initializeWithPositionRecords: aListOfPositionOfPlayers cards: aListOfCardsOfPlayer freedom: aListOfFreedomOfPlayer [
 	positionRecord := aListOfPositionOfPlayers.
 	cardsOfPlayer := aListOfCardsOfPlayer.
-	listOfPermanentCardsOfPlayer := aListOfPermanentCardsOfPlayers.
+	listOfFreedomOfPlayer := aListOfFreedomOfPlayer .
 ]
 
-{ #category : #cardActions }
-PlayersOfAGame >> permanentCardsOf: aPlayer [ 
-	| permanentCardsOfPlayer |
-	permanentCardsOfPlayer := listOfPermanentCardsOfPlayer detect: [ :permanentCardsOf | permanentCardsOf player = aPlayer ].
-	^ permanentCardsOfPlayer allCards.
+{ #category : #'jail actions' }
+PlayersOfAGame >> isFree: aPlayer [
+	^ (listOfFreedomOfPlayer detect: [ :eachFreedomState | eachFreedomState player = aPlayer ]) isFree .
+	
 ]
 
 { #category : #positionActions }
@@ -113,4 +113,18 @@ PlayersOfAGame >> remove: aCard to: aPlayer [
 { #category : #playerActions }
 PlayersOfAGame >> sendAllPlayersToInitialPosition [ 
 	positionRecord  do: [ :eachPlayer | eachPlayer moveToBeginning ].
+]
+
+{ #category : #'jail actions' }
+PlayersOfAGame >> sendToJail: aPlayer [
+	| player |	
+	player := listOfFreedomOfPlayer detect: [ :freedomOf | freedomOf player = aPlayer  ].
+	player sendToJail.
+]
+
+{ #category : #'jail actions' }
+PlayersOfAGame >> setFreeFromJail: aPlayer [
+	| player |	
+	player := listOfFreedomOfPlayer detect: [ :freedomOf | freedomOf player = aPlayer  ].
+	player setFree.
 ]

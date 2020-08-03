@@ -22,7 +22,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #AccelerationCard,
-	#superclass : #Cards,
+	#superclass : #Card,
 	#instVars : [
 		'players'
 	],

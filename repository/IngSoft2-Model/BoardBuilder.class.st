@@ -48,6 +48,11 @@ BoardBuilder >> addEmptyEffect [
 	self subclassResponsibility 
 ]
 
+{ #category : #'as yet unclassified' }
+BoardBuilder >> addJailEffect [
+	self subclassResponsibility.
+]
+
 { #category : #adding }
 BoardBuilder >> addMoonWalk [
 	self subclassResponsibility 

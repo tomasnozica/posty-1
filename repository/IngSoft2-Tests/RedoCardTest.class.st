@@ -33,7 +33,8 @@ Class {
 		'overload',
 		'redo',
 		'twoPlayerGame',
-		'speed'
+		'speed',
+		'setOfDices'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -52,6 +53,8 @@ RedoCardTest >> setUp [
 	ben := Player called: 'Ben'.
 	players := OrderedCollection with: jack with: ben.
 	diceOne := SameFaceDice withFaces: 4.
+	setOfDices := OrderedCollection new.
+	setOfDices add: diceOne.
 	boardBuilder := DeterministicBuilder ofSize: 10.
 	boardBuilder addEmptyEffect .
 	aBoard := boardBuilder build.
@@ -71,15 +74,15 @@ RedoCardTest >> testRedoAcceleration [
 	twoPlayerGame thePlayer: ben willHaveTheCards: (OrderedCollection with: redo with: redo).
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration on: ben.
 	diceOne nextRollNumber: 2.
-	twoPlayerGame newTurnWithDice: diceOne. "jack"
-	twoPlayerGame newTurnWithDice: diceOne. "ben"
+	twoPlayerGame newTurnWithDice: setOfDices. "jack"
+	twoPlayerGame newTurnWithDice: setOfDices. "ben"
 	self assertPosition: 2 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 3 andLap: 0 for: ben in: twoPlayerGame.
-	twoPlayerGame newTurnWithDice: diceOne. "jack"
+	twoPlayerGame newTurnWithDice: setOfDices. "jack"
 	self assertPosition: 4 andLap: 0  for: jack in: twoPlayerGame . 
 	twoPlayerGame thePlayer: ben wantsToUseTheCard: redo on: players.
-	twoPlayerGame newTurnWithDice: diceOne. "ben"
-	twoPlayerGame newTurnWithDice: diceOne. 
+	twoPlayerGame newTurnWithDice: setOfDices. "ben"
+	twoPlayerGame newTurnWithDice: setOfDices. 
 	self assertPosition: 7 andLap: 0  for: jack in: twoPlayerGame .
 	self assertPosition: 7 andLap: 0  for: ben in: twoPlayerGame .  
 ]
@@ -90,19 +93,19 @@ RedoCardTest >> testRedoCancellationCard [
 	twoPlayerGame thePlayer: ben willHaveTheCards: (OrderedCollection with: redo with: acceleration).
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration on: players.
 	diceOne nextRollNumber: 2.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 3 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 0 andLap: 0 for: ben in: twoPlayerGame.
 	twoPlayerGame thePlayer: ben wantsToUseTheCard: acceleration on: players.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 3 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 4 andLap: 0 for: ben in: twoPlayerGame.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: cancellation  on: acceleration .
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 6 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 4 andLap: 0 for: ben in: twoPlayerGame.
 	twoPlayerGame thePlayer: ben wantsToUseTheCard: redo  on: acceleration.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 6 andLap: 0 for: ben in: twoPlayerGame.
 ]
 
@@ -112,15 +115,15 @@ RedoCardTest >> testRedoOverloadCard [
 	twoPlayerGame thePlayer: ben willHaveTheCards: (OrderedCollection with: redo with: redo).
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: overload on: ben.
 	diceOne nextRollNumber: 3.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 3 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 1 andLap: 0 for: ben in: twoPlayerGame.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 6 andLap: 0  for: jack in: twoPlayerGame . 
 	twoPlayerGame thePlayer: ben wantsToUseTheCard: redo on: jack.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne. 
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices. 
 	self assertPosition: 7 andLap: 0  for: jack in: twoPlayerGame . 
 ]
 
@@ -130,14 +133,14 @@ RedoCardTest >> testRedoSpeedCard [
 	twoPlayerGame thePlayer: ben willHaveTheCards: (OrderedCollection with: redo with: redo).
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: speed on: ben.
 	diceOne nextRollNumber: 2.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 2 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 3 andLap: 0 for: ben in: twoPlayerGame.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 4 andLap: 0  for: jack in: twoPlayerGame . 
 	twoPlayerGame thePlayer: ben wantsToUseTheCard: redo on: jack.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne. 
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices. 
 	self assertPosition: 7 andLap: 0  for: jack in: twoPlayerGame . 
 ]

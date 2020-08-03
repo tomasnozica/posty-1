@@ -29,6 +29,11 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #'as yet unclassified' }
+SameFaceDice >> faces [
+	^numberOfFaces .
+]
+
 { #category : #action }
 SameFaceDice >> nextRollNumber: aNumber [ 
 	returnValue := aNumber

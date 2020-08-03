@@ -41,7 +41,8 @@ Class {
 		'deckOfCards',
 		'theBlanckCard',
 		'theNoEffectCards',
-		'boardBuilder'
+		'boardBuilder',
+		'setOfDices'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -68,6 +69,8 @@ GameTest >> setUp [
 	threePlayers := OrderedCollection with: jack with: ben with: louis.
 	diceOne := SameFaceDice withFaces: 4.
 	diceOne nextRollNumber: 4.
+	setOfDices := OrderedCollection new.
+	setOfDices add: diceOne.
 	diceTwo := SameFaceDice withFaces: 5.
 	boardBuilder := DeterministicBuilder ofSize: 10.
 	boardBuilder addEmptyEffect .
@@ -86,7 +89,7 @@ GameTest >> setUp [
 { #category : #tests }
 GameTest >> testAfterJackPlaysItsBenTurn [
 	self assert: twoPlayerGame currentPlayer equals: jack.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assert: twoPlayerGame currentPlayer equals: ben.
 ]
 
@@ -99,15 +102,15 @@ GameTest >> testAtTheBeginingEachPlayerHasTwoCards [
 { #category : #tests }
 GameTest >> testGameIsOver [
 	diceOne nextRollNumber: 9.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 8.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assert: twoPlayerGame isOver.
 ]
 
@@ -121,45 +124,45 @@ GameTest >> testJackAndBenArePlayersOfTheGame [
 GameTest >> testJackPlaysAndChangePosition [
 	self assertPosition: 0 andLap: 0  for: jack  in: twoPlayerGame. 
 	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 4 andLap: 0  for: jack  in: twoPlayerGame. 
 ]
 
 { #category : #tests }
 GameTest >> testLastPositionOfJack [
 	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 8 andLap: 0  for: jack in: twoPlayerGame.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertLastPosition: 8 andLastLap: 0 for: jack in: twoPlayerGame.
 ]
 
 { #category : #tests }
 GameTest >> testNoOneCanPlayAfterGameIsOver [
 	diceOne nextRollNumber: 9.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 8.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self should: [ theGame newTurnWithDice: diceOne ] raise: Error.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	self should: [ theGame newTurnWithDice: setOfDices ] raise: Error.
 ]
 
 { #category : #tests }
 GameTest >> testPlayerCompletesALap [
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 6.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 1 andLap: 1  for: jack  in: twoPlayerGame. 
 ]
 
@@ -168,24 +171,24 @@ GameTest >> testPlayerPlaysPositionChange [
 	self assertPosition: 0 andLap: 0  for: jack  in: twoPlayerGame. 
 	self assertPosition: 0 andLap: 0  for: ben  in: twoPlayerGame . 
 	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne. 
+	twoPlayerGame newTurnWithDice: setOfDices. 
 	diceOne nextRollNumber: 6.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 4 andLap: 0  for: jack  in: twoPlayerGame. 
 	self assertPosition: 6 andLap: 0  for: ben  in: twoPlayerGame . 
 ]
 
 { #category : #tests }
 GameTest >> testPlayerPlaysWithDifferentDices [
-	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	| dices |
+	diceOne nextRollNumber: 3.
+	diceTwo nextRollNumber: 2.
+	dices := OrderedCollection with: diceOne with:diceTwo .
+	twoPlayerGame newTurnWithDice: dices.
 	diceTwo nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceTwo.
-	diceTwo nextRollNumber: 6.
-	twoPlayerGame newTurnWithDice: diceTwo.
-	twoPlayerGame newTurnWithDice: diceOne.
-	self assertPosition: 1 andLap: 1 for: jack in: twoPlayerGame.
-	self assertPosition: 9 andLap: 0 for: ben in: twoPlayerGame.
+	twoPlayerGame newTurnWithDice: dices.
+	self assertPosition: 5 andLap: 0 for: jack in: twoPlayerGame.
+	self assertPosition: 7 andLap: 0 for: ben in: twoPlayerGame.
 ]
 
 { #category : #tests }
@@ -196,9 +199,9 @@ GameTest >> testStepsOfAGame [
 { #category : #tests }
 GameTest >> testTheRankingOfTheGame [
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 6.
-	twoPlayerGame  newTurnWithDice: diceOne.
+	twoPlayerGame  newTurnWithDice: setOfDices.
 	self assert: (twoPlayerGame  rankingPositionOf: jack) equals: 2.
 	self assert: (twoPlayerGame  rankingPositionOf: ben) equals: 1.
 ]
@@ -206,14 +209,14 @@ GameTest >> testTheRankingOfTheGame [
 { #category : #tests }
 GameTest >> testTheWinnerOfTheGame [
 	diceOne nextRollNumber: 9.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 8.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assert: twoPlayerGame winner equals: jack.
 ]

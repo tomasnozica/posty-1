@@ -33,9 +33,9 @@ Class {
 		'aBoard',
 		'threePlayerGame',
 		'diceOne',
-		'diceTwo',
 		'card',
-		'boardBuilder'
+		'boardBuilder',
+		'setOfDices'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -54,7 +54,8 @@ CardTest >> setUp [
 	players := OrderedCollection with: jack with: ben.
 	diceOne := SameFaceDice withFaces: 4.
 	diceOne nextRollNumber: 4.
-	diceTwo := SameFaceDice withFaces: 5.
+	setOfDices := OrderedCollection new.
+	setOfDices add: diceOne.
 	boardBuilder := DeterministicBuilder ofSize: 10.
 	boardBuilder addEmptyEffect .
 	aBoard := boardBuilder build.
@@ -77,8 +78,8 @@ CardTest >> testAcceleration [
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration on: players.
 	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 5 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 5 andLap: 0 for: ben in: twoPlayerGame.
 ]
@@ -94,11 +95,11 @@ CardTest >> testCancellation [
 	twoPlayerGame thePlayer: jack willHaveTheCards: (OrderedCollection with: acceleration with: cancellation).
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: acceleration on: players.
 	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 5 andLap: 0 for: jack in: twoPlayerGame.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: cancellation  on: acceleration .
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 9 andLap: 0 for: jack in: twoPlayerGame.
 	
 ]
@@ -113,8 +114,8 @@ CardTest >> testOverload [
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: overload on: ben.
 	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 4 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 2 andLap: 0 for: ben in: twoPlayerGame.
 ]
@@ -157,8 +158,8 @@ CardTest >> testSpeed [
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: speed on: ben.
 	diceOne nextRollNumber: 4.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 4 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 5 andLap: 0 for: ben in: twoPlayerGame.
 ]

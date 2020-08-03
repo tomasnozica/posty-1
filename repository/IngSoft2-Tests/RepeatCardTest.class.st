@@ -32,7 +32,8 @@ Class {
 		'boardBuilder',
 		'repeat',
 		'cardTypes',
-		'deckOfCards'
+		'deckOfCards',
+		'setOfDices'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -51,6 +52,8 @@ RepeatCardTest >> setUp [
 	players := OrderedCollection with: jack with: ben.
 	diceOne := SameFaceDice withFaces: 4.
 	diceOne nextRollNumber: 4.
+	setOfDices := OrderedCollection new.
+	setOfDices add: diceOne.
 	boardBuilder := DeterministicBuilder ofSize: 10.
 	repeat := RepeatCard new.
 	cardTypes := OrderedCollection new.
@@ -64,13 +67,13 @@ RepeatCardTest >> testRepeatAtomicBombEffect [
 	boardBuilder addAtomicBomb .
 	aBoard := boardBuilder build.
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 0 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 0 andLap: 0 for: ben in: twoPlayerGame.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: repeat on: ben.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 0 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 0 andLap: 0 for: ben in: twoPlayerGame.
 ]
@@ -82,10 +85,10 @@ RepeatCardTest >> testRepeatCardEffect [
 	aBoard := boardBuilder build.
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 3.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	twoPlayerGame thePlayer: ben wantsToUseTheCard: repeat on: jack. 
 	self assert: (twoPlayerGame amountOfCardsOf: jack) equals: 4.
 	self assert: (twoPlayerGame amountOfCardsOf: ben) equals: 1.
@@ -97,10 +100,10 @@ RepeatCardTest >> testRepeatEmptyEffect [
 	boardBuilder addEmptyEffect .
 	aBoard := boardBuilder build.
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: repeat on: ben.
 	self assertPosition: 8 andLap: 0 for: ben in: twoPlayerGame.
 ]
@@ -112,14 +115,14 @@ RepeatCardTest >> testRepeatMoonWalk [
 	aBoard := boardBuilder build.
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	diceOne nextRollNumber: 8.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 6 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 5 andLap: 0 for: ben in: twoPlayerGame.
 	diceOne nextRollNumber: 3.
-	twoPlayerGame newTurnWithDice: diceOne.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: repeat on: ben.
 	self assertPosition: 9 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 6  andLap: 0 for: ben in: twoPlayerGame.
@@ -132,13 +135,13 @@ RepeatCardTest >> testRepeatSpeedUp [
 	aBoard := boardBuilder build.
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	diceOne nextRollNumber: 3.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 3 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 9 andLap: 0 for: ben in: twoPlayerGame.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: repeat on: ben.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 8 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 3 andLap: 1 for: ben in: twoPlayerGame.
 ]
@@ -150,13 +153,13 @@ RepeatCardTest >> testRepeatWormHoleEffect [
 	aBoard := boardBuilder build.
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	diceOne nextRollNumber: 3.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 5.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 3 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 1 andLap: 0 for: ben in: twoPlayerGame.
 	twoPlayerGame thePlayer: jack wantsToUseTheCard: repeat on: ben.
-	twoPlayerGame newTurnWithDice: diceOne.
+	twoPlayerGame newTurnWithDice: setOfDices.
 	self assertPosition: 8 andLap: 0 for: jack in: twoPlayerGame.
 	self assertPosition: 0 andLap: -1 for: ben in: twoPlayerGame.
 ]

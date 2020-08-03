@@ -36,7 +36,8 @@ Class {
 		'empty',
 		'deckOfCards',
 		'theBlanckCard',
-		'theNoEffectCards'
+		'theNoEffectCards',
+		'setOfDices'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -51,6 +52,8 @@ BoxTest >> assertPosition: aPosition andLap: aLap of: aPlayer in: theGame [
 BoxTest >> setUp [
 	super setUp.
 	diceOne := SameFaceDice withFaces: 6.
+	setOfDices := OrderedCollection new.
+	setOfDices add: diceOne.
 	jack := Player called: 'Jack'.
 	ben := Player called: 'Ben'.
 	players := OrderedCollection with: jack with: ben.
@@ -67,7 +70,7 @@ BoxTest >> testAtomicBomb [
 	game := Game withBoard: (board build) withLaps: 1 withPlayers: players with: deckOfCards.
 	self assertPosition: 0 andLap: 0 of: jack in: game.
 	diceOne nextRollNumber: 2.
-	game newTurnWithDice: diceOne .
+	game newTurnWithDice: setOfDices .
 	self assertPosition: 0 andLap: 0 of: jack in: game.
 	
 
@@ -84,9 +87,9 @@ BoxTest >> testMoonWalk [
 	board := draft build.
 	game := Game withBoard: board withLaps: 1 withPlayers: players with: deckOfCards.
 	diceOne nextRollNumber: 6.
-	game newTurnWithDice: diceOne .
+	game newTurnWithDice: setOfDices .
 	diceOne nextRollNumber: 3.
-	game newTurnWithDice: diceOne .
+	game newTurnWithDice: setOfDices .
 	stepsBack := (board positionAt: 3) stepsBack.
 	self assertPosition: 6-stepsBack andLap: 0 of: jack in: game.
 ]
@@ -99,7 +102,7 @@ BoxTest >> testSpeedUp [
 	game := Game withBoard: (board build) withLaps: 1 withPlayers: players with: deckOfCards.
 	self assertPosition: 0 andLap: 0 of: jack in: game.
 	diceOne nextRollNumber: 2.
-	game newTurnWithDice: diceOne .
+	game newTurnWithDice: setOfDices .
 	self assertPosition: 6 andLap: 0 of: jack in: game.
 		
 	
@@ -125,7 +128,7 @@ BoxTest >> testVacio [
 	game := Game withBoard: (board build) withLaps: 1 withPlayers: players with: deckOfCards.
 	self assertPosition: 0 andLap: 0 of: jack in: game.
 	diceOne nextRollNumber: 2.
-	game newTurnWithDice: diceOne .
+	game newTurnWithDice: setOfDices .
 	self assertPosition: 2 andLap: 0 of: jack in: game.
 		
 ]
@@ -138,7 +141,7 @@ BoxTest >> testWormHole [
 	game := Game withBoard: (board build) withLaps: 1 withPlayers: players with: deckOfCards.
 	self assertPosition: 0 andLap: 0 of: jack in: game.
 	diceOne nextRollNumber: 6.
-	game newTurnWithDice: diceOne .
+	game newTurnWithDice: setOfDices .
 	self assertPosition: 2 andLap: 0 of: jack in: game.
 	
 ]

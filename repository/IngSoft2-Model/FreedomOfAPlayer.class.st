@@ -1,6 +1,6 @@
 "
 Please comment me using the following template inspired by Class Responsibility Collaborator (CRC) design:
-""I am a card like in the real world""
+""""
 For the Class part:  State a one line summary. For example, ""I represent a paragraph of text"".
 
 For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
@@ -21,12 +21,44 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #Cards,
+	#name : #FreedomOfAPlayer,
 	#superclass : #Object,
+	#instVars : [
+		'player',
+		'free'
+	],
 	#category : #'IngSoft2-Model'
 }
 
+{ #category : #accessing }
+FreedomOfAPlayer class >> player: aPlayer [
+	^ self new 
+		initializeForPlayer: aPlayer;
+		yourself
+]
+
+{ #category : #initialization }
+FreedomOfAPlayer >> initializeForPlayer: aPlayer [
+	player := aPlayer.
+	free := true.
+]
+
+{ #category : #testing }
+FreedomOfAPlayer >> isFree [ 
+	^ free
+]
+
+{ #category : #accessing }
+FreedomOfAPlayer >> player [ 
+	^ player
+]
+
 { #category : #action }
-Cards >> applyEffectOn: anObject in: anObject1 [ 
-	self subclassResponsibility 
+FreedomOfAPlayer >> sendToJail [
+	free := false.
+]
+
+{ #category : #action }
+FreedomOfAPlayer >> setFree [ 
+	free := true.
 ]

@@ -22,7 +22,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #BlankCard,
-	#superclass : #Cards,
+	#superclass : #Card,
 	#category : #'IngSoft2-Model'
 }
 
