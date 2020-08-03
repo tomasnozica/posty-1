@@ -24,34 +24,14 @@ Class {
 	#name : #BoardTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'empty',
-		'moonwalk',
-		'atomicbomb',
-		'speedup',
-		'boxes',
-		'aBoard',
-		'timemachine',
-		'atomicBomb',
-		'effectOne',
-		'moonWalk',
-		'effectTwo',
-		'speedUp',
-		'effectThree',
-		'timeMachine',
-		'effectFour',
-		'effectFive',
-		'wormHole',
-		'effectSix',
-		'pickCard',
-		'effectSeven',
-		'board',
-		'boardBuilder'
+		'board'
 	],
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #running }
 BoardTest >> setUp [
+	| boardBuilder |
 	super setUp.
 	boardBuilder := UCAGameBoardBuilder  ofSize: 5.
 	boardBuilder addAtomicBomb .

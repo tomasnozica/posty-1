@@ -38,8 +38,7 @@ Class {
 		'deckOfCards',
 		'playersOfTheGame',
 		'lastCardUsed',
-		'permanentCards',
-		'free'
+		'permanentCards'
 	],
 	#category : #'IngSoft2-Model'
 }

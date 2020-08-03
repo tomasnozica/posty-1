@@ -26,15 +26,11 @@ Class {
 	#instVars : [
 		'jack',
 		'ben',
-		'players',
 		'diceOne',
-		'boardBuilder',
 		'freedom',
-		'cardTypes',
-		'deckOfCards',
-		'aBoard',
-		'setOfDices',
-		'diceTwo'
+		'diceTwo',
+		'twoPlayerGame',
+		'setOfDices'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -47,6 +43,7 @@ JailBoxTest >> assertPosition: aPosition andLap: aLap of: aPlayer in: theGame [
 
 { #category : #running }
 JailBoxTest >> setUp [
+	| boardBuilder aBoard deckOfCards players cardTypes |
 	super setUp.
 	jack := Player called: 'Jack'.
 	ben := Player called: 'Ben'.
@@ -62,14 +59,13 @@ JailBoxTest >> setUp [
 	cardTypes := OrderedCollection new.
 	cardTypes add: freedom .
 	deckOfCards := DeckOfCards withEffects: cardTypes.
+	boardBuilder addJailEffect .
+	aBoard := boardBuilder build.
+	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 ]
 
 { #category : #tests }
 JailBoxTest >> testFreedomWithCard [
-	|  twoPlayerGame  |
-	boardBuilder addJailEffect .
-	aBoard := boardBuilder build.
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	diceOne nextRollNumber: 5.
 	twoPlayerGame newTurnWithDice: setOfDices .
 	diceOne nextRollNumber: 3.
@@ -82,10 +78,6 @@ JailBoxTest >> testFreedomWithCard [
 
 { #category : #tests }
 JailBoxTest >> testFreedomWithDice [
-	|  twoPlayerGame  |
-	boardBuilder addJailEffect .
-	aBoard := boardBuilder build.
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	diceOne nextRollNumber: 5.
 	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 3.
@@ -97,11 +89,8 @@ JailBoxTest >> testFreedomWithDice [
 
 { #category : #tests }
 JailBoxTest >> testFreedomWithManyDices [
-	|  twoPlayerGame dice |
+	| dice |
 	dice := OrderedCollection with: diceOne with: diceTwo .
-	boardBuilder addJailEffect .
-	aBoard := boardBuilder build.
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	diceOne nextRollNumber: 5.
 	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 3.
@@ -114,10 +103,6 @@ JailBoxTest >> testFreedomWithManyDices [
 
 { #category : #tests }
 JailBoxTest >> testPlayerRemainsInJail [
-	|  twoPlayerGame  |
-	boardBuilder addJailEffect .
-	aBoard := boardBuilder build.
-	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 	diceOne nextRollNumber: 5.
 	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 3.

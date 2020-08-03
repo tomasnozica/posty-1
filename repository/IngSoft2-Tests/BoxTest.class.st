@@ -24,19 +24,11 @@ Class {
 	#name : #BoxTest,
 	#superclass : #TestCase,
 	#instVars : [
+		'diceOne',
 		'jack',
 		'ben',
 		'players',
-		'atomicBomb',
-		'moonWalk',
-		'speedUp',
-		'timeMachine',
-		'wormHole',
-		'diceOne',
-		'empty',
 		'deckOfCards',
-		'theBlanckCard',
-		'theNoEffectCards',
 		'setOfDices'
 	],
 	#category : #'IngSoft2-Tests'
@@ -50,6 +42,7 @@ BoxTest >> assertPosition: aPosition andLap: aLap of: aPlayer in: theGame [
 
 { #category : #running }
 BoxTest >> setUp [
+	| theBlanckCard theNoEffectCards |
 	super setUp.
 	diceOne := SameFaceDice withFaces: 6.
 	setOfDices := OrderedCollection new.

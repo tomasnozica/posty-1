@@ -31,9 +31,8 @@ Class {
 		'aBoard',
 		'boardBuilder',
 		'repeat',
-		'cardTypes',
-		'deckOfCards',
-		'setOfDices'
+		'setOfDices',
+		'deckOfCards'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -46,6 +45,7 @@ RepeatCardTest >> assertPosition: aPosition andLap: aLap for: aPlayer in: aGame.
 
 { #category : #running }
 RepeatCardTest >> setUp [
+	| cardTypes  |
 	super setUp.
 	jack := Player called: 'Jack'.
 	ben := Player called: 'Ben'.

@@ -24,24 +24,12 @@ Class {
 	#name : #GameTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'players',
 		'jack',
 		'ben',
-		'theGame',
-		'louis',
-		'threePlayers',
-		'empty',
-		'boxes',
-		'aBoard',
-		'threePlayerGame',
 		'twoPlayerGame',
 		'diceOne',
 		'diceTwo',
-		'card',
-		'deckOfCards',
 		'theBlanckCard',
-		'theNoEffectCards',
-		'boardBuilder',
 		'setOfDices'
 	],
 	#category : #'IngSoft2-Tests'
@@ -61,12 +49,11 @@ GameTest >> assertPosition: aPosition andLap: aLap for: aPlayer in: aGame. [
 
 { #category : #running }
 GameTest >> setUp [
+	| cardTypes deckOfCards players aBoard boardBuilder|
 	super setUp.
 	jack := Player called: 'Jack'.
 	ben := Player called: 'Ben'.
 	players := OrderedCollection with: jack with: ben.
-	louis := Player called: 'Louis'.
-	threePlayers := OrderedCollection with: jack with: ben with: louis.
 	diceOne := SameFaceDice withFaces: 4.
 	diceOne nextRollNumber: 4.
 	setOfDices := OrderedCollection new.
@@ -75,11 +62,10 @@ GameTest >> setUp [
 	boardBuilder := DeterministicBuilder ofSize: 10.
 	boardBuilder addEmptyEffect .
 	aBoard := boardBuilder build.
+	cardTypes := OrderedCollection new.
 	theBlanckCard := BlankCard new.
-	theNoEffectCards := OrderedCollection
-		fromDraft: theBlanckCard
-		andSize: nil.
-	deckOfCards := DeckOfCards withEffects: theNoEffectCards.
+	cardTypes add: theBlanckCard.
+	deckOfCards := DeckOfCards withEffects: cardTypes .
 	twoPlayerGame := Game withBoard: aBoard withLaps: 2 withPlayers: players with: deckOfCards.
 
 
@@ -152,7 +138,7 @@ GameTest >> testNoOneCanPlayAfterGameIsOver [
 	twoPlayerGame newTurnWithDice: setOfDices.
 	diceOne nextRollNumber: 4.
 	twoPlayerGame newTurnWithDice: setOfDices.
-	self should: [ theGame newTurnWithDice: setOfDices ] raise: Error.
+	self should: [ twoPlayerGame newTurnWithDice: setOfDices ] raise: Error.
 ]
 
 { #category : #tests }

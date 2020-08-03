@@ -27,15 +27,9 @@ Class {
 		'players',
 		'jack',
 		'ben',
-		'theGame',
-		'empty',
-		'boxes',
-		'aBoard',
-		'threePlayerGame',
 		'diceOne',
-		'card',
-		'boardBuilder',
-		'setOfDices'
+		'setOfDices',
+		'aBoard'
 	],
 	#category : #'IngSoft2-Tests'
 }
@@ -48,6 +42,7 @@ CardTest >> assertPosition: aPosition andLap: aLap for: aPlayer in: aGame. [
 
 { #category : #running }
 CardTest >> setUp [
+	| boardBuilder |
 	super setUp.
 	jack := Player called: 'Jack'.
 	ben := Player called: 'Ben'.
