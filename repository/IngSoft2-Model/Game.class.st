@@ -197,7 +197,6 @@ Game >> lastPositionOf: aPlayer [
 
 { #category : #actions }
 Game >> move: aPlayer anAmountOfBoxes: aNumber [
-	"self assertIsInJail: aPlayer."
 	(playersOfTheGame positionRecordsOf: aPlayer) addNewRecord: aNumber + (self applyCardTo: aPlayer) .
 ]
 

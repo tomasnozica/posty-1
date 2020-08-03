@@ -48,11 +48,6 @@ CardsOfAPlayer >> addCard: aCard [
 ]
 
 { #category : #accessing }
-CardsOfAPlayer >> allCards [
-	^ cards
-]
-
-{ #category : #accessing }
 CardsOfAPlayer >> amountOfCards [
 	^ cards size
 ]

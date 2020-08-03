@@ -36,7 +36,7 @@ AccelerationCard >> applyEffectOn: allPlayers in: aGame [
 	players := allPlayers 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 AccelerationCard >> effect [
 	^ 1
 ]

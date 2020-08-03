@@ -29,19 +29,17 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 SameFaceDice >> faces [
-	^numberOfFaces .
+	^ numberOfFaces .
 ]
 
-{ #category : #action }
+{ #category : #actions }
 SameFaceDice >> nextRollNumber: aNumber [ 
 	returnValue := aNumber
 ]
 
 { #category : #actions }
 SameFaceDice >> roll [
-	"Whenever you roll the dice it returns 4"
-
 	^ returnValue 
 ]

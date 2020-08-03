@@ -23,10 +23,6 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #DeterministicBuilder,
 	#superclass : #BoardBuilder,
-	#instVars : [
-		'size',
-		'draft'
-	],
 	#category : #'IngSoft2-Model'
 }
 

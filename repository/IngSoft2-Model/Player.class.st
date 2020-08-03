@@ -28,7 +28,7 @@ Class {
 	#name : #Player,
 	#superclass : #Object,
 	#instVars : [
-		'playerName'
+		'name'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -42,13 +42,10 @@ Player class >> called: aName [
 
 { #category : #initialize }
 Player >> initializeWithName: aName [
-	"Create a player with a name and locate him at the begining of the game"
-
-	playerName := aName.
+	name := aName.
 ]
 
 { #category : #description }
 Player >> name [
-	"return player name"
-	^ playerName 
+	^ name 
 ]

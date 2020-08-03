@@ -57,11 +57,6 @@ Board >> doEffectOnLastPosition: aPlayer in: aGame [
 { #category : #initialize }
 Board >> initializeFromDraft: aDraft andSize: aSize [ 
 	self subclassResponsibility .
-	
-	"| random  |
-	random := Random new.
-	board := OrderedCollection new.
-	(1 to: aSize) collect: [ :element1 | board add: (aDraft at: ((random next * aDraft size) asInteger + 1)) ]."
 ]
 
 { #category : #actions }
@@ -78,7 +73,7 @@ Board >> positionAccordingToBoard: aPosition [
 		ifFalse: [ ^ aPosition - (aPosition // self amountOfBoxes * self amountOfBoxes) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 Board >> positionAt: anIndex [ 
 	^ board at: anIndex
 ]

@@ -29,7 +29,6 @@ Class {
 	#instVars : [
 		'positionRecord',
 		'cardsOfPlayer',
-		'game',
 		'listOfFreedomOfPlayer'
 	],
 	#category : #'IngSoft2-Model'

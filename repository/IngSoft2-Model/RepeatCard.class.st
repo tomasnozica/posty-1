@@ -29,5 +29,4 @@ Class {
 { #category : #action }
 RepeatCard >> applyEffectOn: aPlayer in: aGame [
 	aGame doEffectOnLastPositionOf: aPlayer.
-	^ 0
 ]

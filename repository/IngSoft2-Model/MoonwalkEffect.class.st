@@ -46,7 +46,7 @@ MoonwalkEffect >> initializeWithNumberOfStepsBack: aNumber [
 	numberOfStepsBack := aNumber.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 MoonwalkEffect >> stepsBack [
 	^ numberOfStepsBack 
 ]

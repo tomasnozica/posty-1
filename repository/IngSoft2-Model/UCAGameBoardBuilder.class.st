@@ -26,10 +26,6 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #UCAGameBoardBuilder,
 	#superclass : #BoardBuilder,
-	#instVars : [
-		'draft',
-		'size'
-	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -48,7 +44,7 @@ UCAGameBoardBuilder >> addEmptyEffect [
 	1 to: 45 do: [ :index | draft add: (EmptyEffect  new) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 UCAGameBoardBuilder >> addJailEffect [
 	1 to: 10 do: [ :index | draft add: (JailEffect new) ]
 ]

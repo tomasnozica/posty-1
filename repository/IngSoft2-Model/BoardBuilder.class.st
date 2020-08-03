@@ -23,6 +23,10 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #BoardBuilder,
 	#superclass : #Object,
+	#instVars : [
+		'draft',
+		'size'
+	],
 	#category : #'IngSoft2-Model'
 }
 
@@ -48,7 +52,7 @@ BoardBuilder >> addEmptyEffect [
 	self subclassResponsibility 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 BoardBuilder >> addJailEffect [
 	self subclassResponsibility.
 ]
@@ -71,4 +75,9 @@ BoardBuilder >> addWormHole [
 { #category : #building }
 BoardBuilder >> build [
 	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+BoardBuilder >> initiatializeWithSize: arg1 [ 
+	^ self subclassResponsibility
 ]

@@ -54,9 +54,9 @@ PositionRecord >> lastPosition [
 	^ recordOfPositions sum - recordOfPositions last.
 ]
 
-{ #category : #accessing }
+{ #category : #adding }
 PositionRecord >> moveToBeginning [
-	  recordOfPositions add: (self position) negated 
+	recordOfPositions add: (self position) negated 
 ]
 
 { #category : #accessing }

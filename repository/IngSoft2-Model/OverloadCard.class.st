@@ -36,12 +36,12 @@ OverloadCard >> applyEffectOn: aPlayer in: aGame [
 	player := aPlayer.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 OverloadCard >> effect [ 
 	^ -2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 OverloadCard >> player [
 	^ player
 ]

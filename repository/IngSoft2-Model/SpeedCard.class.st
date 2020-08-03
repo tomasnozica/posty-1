@@ -36,7 +36,7 @@ SpeedCard >> applyEffectOn: aPlayer in: aGame [
 	player := aPlayer.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 SpeedCard >> effect [ 
 	^1
 ]

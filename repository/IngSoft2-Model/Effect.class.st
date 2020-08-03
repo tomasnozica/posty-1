@@ -23,14 +23,10 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #Effect,
 	#superclass : #Object,
-	#instVars : [
-		'probability'
-	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #action }
 Effect >> effectOn: aPlayer in: aGame [
-
 	self subclassResponsibility
 ]
